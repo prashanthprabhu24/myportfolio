@@ -1,80 +1,76 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>Projects — Prashanth N</title>
+
 <link rel="stylesheet" href="../../assets/site.css">
+
 <style>
 .projects-page .hero{padding:10vh 0 7vh}
 .projects-page .hero h1{font-size:clamp(42px,5vw,64px);line-height:1.02;letter-spacing:-.045em;font-weight:600;margin:0 0 18px}
 .projects-page .hero p{font-size:21px;line-height:1.4;max-width:760px;color:#4d4e49;margin:0}
+
 .projects-page .section{padding:62px 0}
-.projects-page .featured{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;margin-bottom:42px}
-.projects-page .project-card{border:1px solid rgba(16,17,22,.14);padding:28px;min-height:280px;display:flex;flex-direction:column;transition:transform .18s ease,border-color .18s ease}
-.projects-page .project-card:hover{transform:translateY(-2px);border-color:rgba(16,17,22,.34)}
-.projects-page .project-card h2,.projects-page .project-card h3{font-weight:600;letter-spacing:-.035em;margin:0}
-.projects-page .project-card h2{font-size:34px;line-height:1.05}
-.projects-page .project-card h3{font-size:25px;line-height:1.1}
-.projects-page .project-card p{font-size:15px;line-height:1.55;color:#555;max-width:650px}
-.projects-page .tag{font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
-.projects-page .meta{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
-.projects-page .meta span{font-size:11px;border:1px solid rgba(16,17,22,.15);padding:6px 8px}
-.projects-page .bottom{margin-top:auto;padding-top:24px}
-.projects-page .arrow{font-weight:700;font-size:13px}
-.projects-page .grid{grid-template-columns:repeat(2,1fr);gap:14px}
-.projects-page .small{min-height:230px}
-.projects-page .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:26px}
-.projects-page .metric{border-top:1px solid rgba(16,17,22,.16);padding-top:10px}
-.projects-page .metric strong{display:block;font-size:23px;font-weight:600;letter-spacing:-.03em}
-.projects-page .metric span{font-size:11px;color:#666}
-@media(max-width:800px){.projects-page .featured,.projects-page .grid{grid-template-columns:1fr}.projects-page .metrics{grid-template-columns:repeat(2,1fr)}}
+.projects-page .empty{max-width:850px;border-top:1px solid rgba(16,17,22,.14);border-bottom:1px solid rgba(16,17,22,.14);padding:34px 0}
+.projects-page .empty h2{font-size:clamp(28px,3vw,40px);font-weight:550;line-height:1.08;letter-spacing:-.035em;margin:0 0 14px}
+.projects-page .empty p{font-size:16px;line-height:1.55;color:#555;max-width:720px;margin:0}
+.projects-page .note{margin-top:28px;font-size:14px;line-height:1.5;color:#666;max-width:760px}
 
-.projects-page .project-group{max-width:980px}
-.projects-page .group-heading{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid rgba(16,17,22,.16);padding-bottom:10px;margin-bottom:14px}
-.projects-page .group-number{font-size:10px;font-weight:800;letter-spacing:.12em;color:#666}
-.projects-page .group-heading h2{font-size:22px;font-weight:600;letter-spacing:-.025em;margin:0}
-.projects-page .featured-card{display:block;min-height:0;padding:26px;text-decoration:none;color:inherit}
-.projects-page .project-title-row{display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin-top:30px}
-.projects-page .project-title-row h2{font-size:38px}
-.projects-page .project-title-row .arrow{white-space:nowrap}
-.projects-page .featured-card p{max-width:720px;margin-bottom:0}
-.projects-page .featured-card .metrics{margin-top:30px}
-.projects-page .project-note{margin-top:34px;padding-top:14px;border-top:1px solid rgba(16,17,22,.12);font-size:13px;color:#666}
-@media(max-width:800px){.projects-page .project-title-row{align-items:flex-start;flex-direction:column;gap:10px}.projects-page .project-title-row h2{font-size:32px}}
+@media(max-width:800px){
+  .projects-page .hero p{font-size:19px}
+}
 </style>
+
 </head>
+
 <body>
-<nav class="nav"><a class="brand" href="../../">PRASHANTH N.</a><div class="navlinks"><a href="../">Work</a><a href="../../research/">Research</a><a href="../../thinking/">Thinking</a><a href="../../learning/">Learning</a></div></nav>
+
+<nav class="nav">
+<a class="brand" href="../../">PRASHANTH N.</a>
+
+<div class="navlinks">
+<a href="../">Work</a>
+<a href="../../research/">Research</a>
+<a href="../../thinking/">Thinking</a>
+<a href="../../learning/">Learning</a>
+</div>
+</nav>
+
 <main class="projects-page">
-<section class="hero"><div class="eyebrow">Projects</div><h1>Things I build.</h1><p>Implementations and experiments where the interesting part is not just the final model, but understanding what happens underneath it.</p></section>
-<section class="section">
-  <div class="project-group">
-    <div class="group-heading">
-      <div class="group-number">01</div>
-      <h2>Vision</h2>
-    </div>
 
-    <a class="project-card featured-card accent-blue" href="../research-reproductions/alexnet.html">
-      <div class="project-main">
-        <div class="tag">Computer Vision · Reproduction</div>
-        <div class="project-title-row"><h2>AlexNet</h2><span class="arrow">Open project →</span></div>
-        <p>A from-scratch reproduction of the 2012 ImageNet architecture, including the data pipeline, training setup, evaluation, ablations, and visual analysis.</p>
-      </div>
-      <div class="metrics">
-        <div class="metric"><strong>1.2M+</strong><span>training images</span></div>
-        <div class="metric"><strong>62.4M</strong><span>parameters</span></div>
-        <div class="metric"><strong>90</strong><span>epochs</span></div>
-        <div class="metric"><strong>~40h</strong><span>training</span></div>
-      </div>
-    </a>
-  </div>
+<section class="hero">
 
-  <div class="project-note">
-    <span>More projects will be added here as they become part of the record.</span>
-  </div>
+<div class="eyebrow">Projects</div>
+
+<h1>Things I build.</h1>
+
+<p>Personal projects, systems, experiments, and ideas that start with a problem I want to solve or something I want to make.</p>
+
 </section>
+
+<section class="section">
+
+<div class="empty">
+
+<div class="eyebrow">01 / Coming together</div>
+
+<h2>This is where the projects will live.</h2>
+
+<p>Unlike the research reproductions, these projects are my own builds. They can be software, AI/ML systems, experiments, tools, or anything else worth keeping as part of the record.</p>
+
+</div>
+
+<p class="note">Projects will be added here as they become ready. No placeholder projects are being added just to fill the page.</p>
+
+</section>
+
 </main>
+
 <footer class="footer"><a href="../">← Work</a></footer>
+
 </body>
 </html>
