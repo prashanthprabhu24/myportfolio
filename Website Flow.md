@@ -26,20 +26,17 @@
 
 
 Folder Arch : 
-your-repo/
 │
 ├── index.html
-│   └── index.html
 ├── work/
 │   ├── index.html
 │   ├── projects/
-│   ├── experience/
+│   ├── research-reproductions/
 │   └── resume/
 │
 ├── research/
 │   ├── index.html
 │   ├── papers/
-│   ├── reproductions/
 │   ├── experiments/
 │   └── ideas/
 │
@@ -47,15 +44,13 @@ your-repo/
 │   ├── index.html
 │   ├── notes/
 │   ├── essays/
-│   └── questions/
 │
 ├── learning/
 ├── contact/
 │
 ├── assets/
 │   ├── css/
-│   ├── js/
-│   ├── images/
+│   ├── pdf/
 │   └── ...
 │
 └── ...
