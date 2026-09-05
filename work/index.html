@@ -6,48 +6,22 @@
 <title>Work — Prashanth N</title>
 <link rel="stylesheet" href="../assets/site.css">
 <style>
-/* Work page: personal/technical work only — not employment history. */
-.work-page .hero{padding:9vh 0 7vh}
-.work-page .hero h1{
-  font-size:clamp(48px,6.5vw,78px);
-  line-height:.95;
-  letter-spacing:-.055em;
-  font-weight:650;
-  margin:0 0 22px;
-  max-width:760px;
-}
-.work-page .hero p{
-  font-size:clamp(20px,2.2vw,28px);
-  line-height:1.18;
-  max-width:780px;
-  color:#3f403b;
-  margin:0;
-}
-.work-page .section{padding:72px 0}
-.work-page .section-intro{
-  display:grid;
-  grid-template-columns:1fr 3fr;
-  gap:45px;
-  margin-bottom:30px;
-}
-.work-page .section-intro h2{
-  font-size:clamp(30px,3.5vw,46px);
-  font-weight:600;
-  line-height:1;
-  margin:0;
-  letter-spacing:-.045em;
-}
-.work-page .grid{grid-template-columns:repeat(3,1fr);gap:12px}
-.work-page .card{min-height:250px;padding:25px}
-.work-page .card h3{font-size:24px;line-height:1.08;font-weight:600;letter-spacing:-.04em}
-.work-page .card p{font-size:15px;line-height:1.45;margin:0;color:#555}
+.work-page .hero{padding:10vh 0 8vh}
+.work-page .hero h1{font-size:clamp(44px,5.2vw,68px);line-height:1;letter-spacing:-.045em;font-weight:600;margin:0 0 20px;max-width:760px}
+.work-page .hero p{font-size:clamp(19px,2vw,25px);line-height:1.3;max-width:760px;color:#454640;margin:0}
+.work-page .section{padding:66px 0}
+.work-page .section-intro{display:grid;grid-template-columns:1fr 3fr;gap:48px;margin-bottom:34px}
+.work-page .section-intro h2{font-size:clamp(28px,3vw,40px);font-weight:550;line-height:1.08;margin:0 0 12px;letter-spacing:-.035em}
+.work-page .work-note{max-width:720px;color:#555;font-size:16px;line-height:1.55;margin:0}
+.work-page .grid{grid-template-columns:repeat(3,1fr);gap:14px}
+.work-page .card{min-height:235px;padding:25px;border:1px solid rgba(16,17,22,.14);transition:transform .18s ease,border-color .18s ease}
+.work-page .card:hover{transform:translateY(-2px);border-color:rgba(16,17,22,.34)}
+.work-page .card h3{font-size:23px;line-height:1.12;font-weight:600;letter-spacing:-.035em}
+.work-page .card p{font-size:15px;line-height:1.5;margin:0;color:#555}
 .work-page .card .card-copy{margin-top:auto}
-.work-page .work-note{max-width:700px;color:#555;font-size:15px;margin:0}
-@media(max-width:800px){
-  .work-page .section-intro{grid-template-columns:1fr;gap:18px}
-  .work-page .grid{grid-template-columns:1fr}
-  .work-page .card{min-height:210px}
-}
+.work-page .card .tag{font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.work-page .note-strip{border-top:1px solid rgba(16,17,22,.12);padding-top:22px;margin-top:20px;color:#666;font-size:14px;line-height:1.5;max-width:850px}
+@media(max-width:800px){.work-page .section-intro{grid-template-columns:1fr;gap:16px}.work-page .grid{grid-template-columns:1fr}.work-page .card{min-height:205px}}
 </style>
 </head>
 <body>
@@ -70,8 +44,8 @@
     <div class="section-intro">
       <div class="eyebrow">01 / Explore</div>
       <div>
-        <h2>Work that I can show.</h2>
-        <p class="work-note">This is the practical side of the site — things I build, implement, train, test, and learn by doing.</p>
+        <h2>Built by doing.</h2>
+        <p class="work-note">I learn by implementing things, training models, running experiments, and looking closely at what happens. This is where that work lives.</p>
       </div>
     </div>
 
@@ -80,7 +54,7 @@
         <div class="tag">Projects</div>
         <div class="card-copy">
           <h3>Models, systems &amp; experiments →</h3>
-          <p>Projects where the implementation and results are the main story.</p>
+          <p>From small foundational models to larger implementations and training studies.</p>
         </div>
       </a>
 
@@ -88,7 +62,7 @@
         <div class="tag">Research Reproductions</div>
         <div class="card-copy">
           <h3>Papers turned into working code →</h3>
-          <p>Implementations of ideas from papers to understand them through practice.</p>
+          <p>Implementations of research ideas to understand the architecture, mathematics, and experiments through practice.</p>
         </div>
       </a>
 
@@ -96,10 +70,12 @@
         <div class="tag">GitHub</div>
         <div class="card-copy">
           <h3>Code, notebooks &amp; repositories →</h3>
-          <p>The code behind the projects, studies, and experiments.</p>
+          <p>The public code behind the things I build and investigate.</p>
         </div>
       </a>
     </div>
+
+    <p class="note-strip">Some work belongs to more than one part of the site. A project can lead to a research question; a paper can become an implementation; an experiment can become a note.</p>
   </section>
 </main>
 
