@@ -1,122 +1,37 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Work — Prashanth N</title>
-
-<link rel="stylesheet" href="../assets/site.css">
-
-<style>
-.work-page .hero{padding:10vh 0 8vh}
-.work-page .hero h1{font-size:clamp(44px,5.2vw,68px);line-height:1;letter-spacing:-.045em;font-weight:600;margin:0 0 20px;max-width:760px}
-.work-page .hero p{font-size:clamp(19px,2vw,25px);line-height:1.3;max-width:760px;color:#454640;margin:0}
-
-.work-page .section{padding:66px 0}
-.work-page .section-intro{display:grid;grid-template-columns:1fr 3fr;gap:48px;margin-bottom:34px}
-.work-page .section-intro h2{font-size:clamp(28px,3vw,40px);font-weight:550;line-height:1.08;margin:0 0 12px;letter-spacing:-.035em}
-.work-page .work-note{max-width:720px;color:#555;font-size:16px;line-height:1.55;margin:0}
-
-.work-page .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.work-page .card{display:block;min-height:235px;padding:25px;border:1px solid rgba(16,17,22,.14);transition:transform .18s ease,border-color .18s ease;text-decoration:none;color:inherit}
-.work-page .card:hover{transform:translateY(-2px);border-color:rgba(16,17,22,.34)}
-.work-page .card h3{font-size:23px;line-height:1.12;font-weight:600;letter-spacing:-.035em}
-.work-page .card p{font-size:15px;line-height:1.5;margin:0;color:#555;max-width:700px}
-.work-page .card .card-copy{margin-top:72px}
-.work-page .card .tag{font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
-
-.work-page .note-strip{border-top:1px solid rgba(16,17,22,.12);padding-top:22px;margin-top:20px;color:#666;font-size:14px;line-height:1.5;max-width:850px}
-
-@media(max-width:800px){
-  .work-page .section-intro{grid-template-columns:1fr;gap:16px}
-  .work-page .cards{grid-template-columns:1fr}
-}
-</style>
-
-</head>
-
-<body>
-
-<nav class="nav">
-
-<a class="brand" href="../">PRASHANTH N.</a>
-
-<div class="navlinks">
-<a href="research-reproductions/">Research Reproductions</a>
-<a href="projects/">Projects</a>
-</div>
-
-</nav>
-
-<main class="work-page">
-
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Prashanth N — AI / ML / Research</title><meta name="description" content="Prashanth N — AI, machine learning, research, projects, ideas and learning."><link rel="stylesheet" href="assets/site.css"></head><body>
+<nav class="nav"><a class="brand" href="index.html">PRASHANTH N.</a><div class="navlinks"><a href="work/">Work</a><a href="research/">Research</a><a href="thinking/">Thinking</a><a href="learning/">Learning</a><a href="now/">Now</a><a href="about/">About</a><a href="contact/">Contact</a></div></nav>
+<main>
 <section class="hero">
+  <div class="eyebrow">AI / ML / Research / Engineering</div>
+  <p>I'm Prashanth N. I like understanding how things work.</p>
+  <p class="hero-sub">I study, build, experiment, and write about things I find interesting.</p>
+  <div class="actions"><a class="btn primary" href="work/">Explore the work</a><a class="btn" href="now/">What I'm doing now</a></div>
+</section>
 
-<div class="eyebrow">Work</div>
-
-<h1>Things I build.</h1>
-
-<p>Research reproductions, personal projects, model implementations, experiments, and the code behind them.</p>
-
+<section class="section visitor-section">
+  <div class="eyebrow">Start here</div>
+  <h2>WHAT ARE YOU<br>LOOKING FOR?</h2>
+  <div class="grid visitor-grid">
+    <a class="card" href="work/resume/"><div class="tag">01 / Hiring</div><div><h3>Looking to hire me?</h3><p>Resume, skills, experience and what I can do.</p><span class="card-link">Go to my resume →</span></div></a>
+    <a class="card" href="work/"><div class="tag">02 / Work</div><div><h3>Interested in the work?</h3><p>Projects, research reproductions and experiments.</p><span class="card-link">Explore the work →</span></div></a>
+    <a class="card" href="thinking/"><div class="tag">03 / Thinking</div><div><h3>Want to know how I think?</h3><p>Notes, questions, ideas and things I'm trying to understand.</p><span class="card-link">Explore thinking →</span></div></a>
+    <a class="card" href="about/"><div class="tag">04 / Curious</div><div><h3>Just curious?</h3><p>About me, what I'm learning, and what I'm doing now.</p><span class="card-link">Start here →</span></div></a>
+  </div>
 </section>
 
 <section class="section">
-
-<div class="section-intro">
-
-<div class="eyebrow">01 / Explore</div>
-
-<div>
-
-<h2>Built by doing.</h2>
-
-<p class="work-note">Some of the work here starts with a paper and becomes a reproduction. Some starts with an idea and becomes a project. This is where those things live.</p>
-
-</div>
-
-</div>
-
-<div class="cards">
-
-<a class="card accent-lime" href="research-reproductions/">
-
-<div class="tag">Research Reproductions</div>
-
-<div class="card-copy">
-
-<h3>Papers turned into working code →</h3>
-
-<p>From architecture and mathematics to training, evaluation, ablations, and implementation details. Each reproduction is a record of what happened when the paper met actual code and compute.</p>
-
-</div>
-
-</a>
-
-<a class="card accent-blue" href="projects/">
-
-<div class="tag">Projects</div>
-
-<div class="card-copy">
-
-<h3>Things I built on my own →</h3>
-
-<p>Personal projects, systems, experiments, and ideas that do not necessarily begin as a paper reproduction.</p>
-
-</div>
-
-</a>
-
-</div>
-
-<p class="note-strip">Code links live inside each piece of work where they belong, alongside the project or experiment they support.</p>
-
+  <div class="split"><div><div class="eyebrow">Currently</div><h2>WHAT'S<br>HAPPENING</h2></div>
+  <div class="grid">
+    <a class="card accent-lime" href="learning/"><div class="tag">Studying</div><div><h3>Things I'm learning</h3><p>Topics, ideas, mathematics, books, papers, and whatever currently has my attention.</p></div></a>
+    <a class="card accent-blue" href="work/projects/"><div class="tag">Building</div><div><h3>Things I'm making</h3><p>Projects, experiments, software, models, and things I build to learn.</p></div></a>
+    <a class="card accent-coral" href="thinking/"><div class="tag">Thinking</div><div><h3>Things I'm exploring</h3><p>Questions, ideas, observations, and problems I'm trying to understand.</p></div></a>
+  </div></div>
 </section>
 
+<section class="section"><div class="eyebrow">My world</div><h2>ONE SITE.<br>MANY THREADS.</h2><div class="grid"><a class="card" href="work/"><div class="tag">01 / Work</div><div><h3>Projects, experience & resume</h3><p>What I build and what I can do.</p></div></a><a class="card" href="research/"><div class="tag">02 / Research</div><div><h3>Papers, experiments & ideas</h3><p>Research that I reproduce, extend and question.</p></div></a><a class="card" href="thinking/"><div class="tag">03 / Thinking</div><div><h3>Notes, essays & questions</h3><p>The things I am trying to understand.</p></div></a><a class="card" href="learning/"><div class="tag">04 / Learning</div><div><h3>Topics, mathematics & reading</h3><p>The map of what I am learning.</p></div></a><a class="card" href="now/"><div class="tag">05 / Now</div><div><h3>The current snapshot</h3><p>What is occupying my time right now.</p></div></a><a class="card" href="about/"><div class="tag">06 / About</div><div><h3>The person behind the work</h3><p>Background, education and direction.</p></div></a></div></section>
+
+<section class="section"><div class="eyebrow">Selected work</div><div class="list"><a class="row" href="work/projects/alexnet.html"><strong>AlexNet reproduction</strong><span>ImageNet-era CNN, architecture, training and analysis</span><span>→</span></a><a class="row" href="research/reproductions/"><strong>Research reproductions</strong><span>Learning by rebuilding influential results</span><span>→</span></a></div></section>
+
+<section class="section"><div class="split"><div><div class="eyebrow">A connected record</div><h2>FOLLOW<br>THE THREAD.</h2></div><div><p class="thread-lead">There isn't always a straight line from something I learn to something I build.</p><p>A paper might lead to an experiment. An experiment might lead to a question. A question might become a project.</p><p>This site keeps those connections together.</p><div class="actions"><a class="btn" href="work/">Explore the work →</a></div></div></div></section>
 </main>
-
-<footer class="footer"><a href="../">← Home</a></footer>
-
-</body>
-</html>
+<footer class="footer"><strong>PRASHANTH N.</strong><span class="small">AI / ML / Research · 2026</span></footer></body></html>
