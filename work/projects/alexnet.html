@@ -1,1 +1,229 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AlexNet Reproduction — Prashanth N</title><link rel="stylesheet" href="../../assets/site.css"></head><body><nav class="nav"><a class="brand" href="../../">PRASHANTH N.</a><div class="navlinks"><a href="../">Work</a><a href="../../research/">Research</a><a href="../../thinking/">Thinking</a></div></nav><main><section class="hero"><div class="eyebrow">Project · Computer Vision</div><h1>ALEXNET.</h1><p>Reproducing the ImageNet-era convolutional architecture as a way to understand its design choices, training behavior and compute requirements.</p><div class="actions"><a class="btn" href="../../research/reproductions/">Related reproductions</a><a class="btn" href="../../learning/topics/">Related learning</a></div></section><section class="section"><div class="split"><div><div class="eyebrow">Questions</div><h2>WHY DID THIS WORK?</h2></div><div><p style="font-size:24px">The project is not only about getting a model to train. It is an attempt to understand the architecture, the role of GPUs, the training recipe and why this family of models mattered historically.</p></div></div></section></main><footer class="footer"><a href="../">← Projects</a></footer></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AlexNet — Prashanth N.</title>
+  <link rel="stylesheet" href="../../assets/site.css">
+  <style>
+    .project-page{width:min(1200px,92vw);margin:auto}
+    .project-hero{padding:8vh 0 7vh;border-bottom:1px solid var(--line)}
+    .project-kicker{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;margin-bottom:18px}
+    .project-hero h1{font-size:clamp(54px,8vw,94px);line-height:.9;letter-spacing:-.065em;margin:0 0 24px;font-weight:650}
+    .project-lead{font-size:clamp(25px,3.3vw,43px);line-height:1.08;letter-spacing:-.04em;max-width:900px;margin:0}
+    .project-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+    .project-meta span{font-size:11px;font-weight:750;letter-spacing:.07em;text-transform:uppercase;border:1px solid var(--line);padding:7px 9px;background:var(--soft)}
+    .project-section{padding:76px 0;border-bottom:1px solid var(--line)}
+    .project-section-head{display:grid;grid-template-columns:1fr 2fr;gap:45px;margin-bottom:38px}
+    .project-section-no{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em}
+    .project-section h2{font-size:clamp(32px,4.2vw,58px);line-height:.96;letter-spacing:-.055em;margin:0;max-width:760px}
+    .project-section p{font-size:17px;line-height:1.62;color:#41423d;margin:0 0 18px}
+    .project-section p:last-child{margin-bottom:0}
+    .project-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .project-stat{padding:20px;border:1px solid var(--line);background:var(--soft);min-height:125px}
+    .project-stat strong{display:block;font-size:30px;letter-spacing:-.045em;line-height:1;margin-bottom:10px}
+    .project-stat span{font-size:12px;color:#5b5c56}
+    .project-split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .project-card{border:1px solid var(--line);padding:25px;background:var(--paper)}
+    .project-card.soft{background:var(--soft)}
+    .project-card h3{font-size:22px;letter-spacing:-.035em;margin:0 0 9px}
+    .project-card p{font-size:15px;line-height:1.55;margin:0}
+    .project-list{border-top:1px solid var(--ink)}
+    .project-row{display:grid;grid-template-columns:72px 1fr 2fr;gap:18px;padding:20px 0;border-bottom:1px solid var(--line)}
+    .project-row .num{font-size:11px;font-weight:800;letter-spacing:.1em}
+    .project-row h3{font-size:19px;margin:0;letter-spacing:-.025em}
+    .project-row p{font-size:15px;margin:0}
+    .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .compare-card{border:1px solid var(--line);padding:25px}
+    .compare-card h3{font-size:12px;text-transform:uppercase;letter-spacing:.1em;margin:0 0 18px}
+    .compare-card ul{margin:0;padding-left:18px;color:#41423d}
+    .compare-card li{margin:8px 0;font-size:15px;line-height:1.45}
+    .image-block{margin-top:34px;border:1px solid var(--line);background:#171815;padding:12px}
+    .image-block img{display:block;width:100%;height:auto}
+    .image-caption{font-size:11px;color:#e8e7df;margin:10px 4px 1px;letter-spacing:.02em}
+    .image-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    .note{padding:20px 22px;border-left:3px solid var(--blue);background:#e7ebf5;margin-top:28px}
+    .note p{margin:0;font-size:16px}
+    .takeaway{background:var(--soft)}
+    .takeaway p{font-size:clamp(21px,2.4vw,31px);line-height:1.2;letter-spacing:-.025em;max-width:900px;color:var(--ink)}
+    @media(max-width:800px){
+      .project-section-head,.project-split,.compare{grid-template-columns:1fr;gap:22px}
+      .project-grid{grid-template-columns:1fr 1fr}
+      .project-row{grid-template-columns:48px 1fr}
+      .project-row p{grid-column:2}
+      .image-grid{grid-template-columns:1fr}
+      .project-section{padding:55px 0}
+    }
+    @media(max-width:520px){.project-grid{grid-template-columns:1fr}.project-hero{padding-top:6vh}.project-meta span{font-size:10px}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="../../">PRASHANTH N.</a>
+  <div class="navlinks"><a href="../">Work</a><a href="../../research/">Research</a><a href="../../thinking/">Thinking</a></div>
+</nav>
+
+<main class="project-page">
+  <section class="project-hero">
+    <div class="project-kicker">01 / Vision / Reproduction</div>
+    <h1>AlexNet.</h1>
+    <p class="project-lead">Reproducing a landmark convolutional neural network from the 2012 ImageNet paper, then training it locally to understand the architecture, training recipe, compute requirements, and the gap between a paper result and a real reproduction.</p>
+    <div class="project-meta">
+      <span>2012 paper</span><span>CNN</span><span>ImageNet</span><span>PyTorch / Keras</span><span>RTX 5050</span><span>ReLU / LRN</span>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <div class="project-section-head">
+      <div class="project-section-no">01 / The project</div>
+      <div>
+        <h2>Not just an implementation. A reproduction.</h2>
+      </div>
+    </div>
+    <div class="project-split">
+      <div>
+        <p>The goal was to reproduce AlexNet as described in the original paper: its architecture, layers and training setup, then run the complete pipeline locally — from dataset loading and augmentation through training, evaluation and visualization.</p>
+        <p>The interesting part was the scale. The training set was roughly 1.2 million images across 1,000 classes. The dataset occupied about 150 GB, while the implementation contained 62,378,350 trainable parameters.</p>
+      </div>
+      <div class="project-card soft">
+        <h3>What I actually did</h3>
+        <p>Built the network, prepared the ImageNet pipeline, tuned the CPU-side dataloader so the GPU could stay supplied, trained for 90 epochs, reproduced two of the paper's smaller ablations, evaluated the model, and inspected what the network learned.</p>
+      </div>
+    </div>
+    <div class="project-grid" style="margin-top:34px">
+      <div class="project-stat"><strong>1.2M+</strong><span>training images</span></div>
+      <div class="project-stat"><strong>1,000</strong><span>ImageNet classes</span></div>
+      <div class="project-stat"><strong>62.4M</strong><span>trainable parameters</span></div>
+      <div class="project-stat"><strong>~40h</strong><span>model training</span></div>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <div class="project-section-head">
+      <div class="project-section-no">02 / Architecture</div>
+      <div><h2>Five convolutional layers. Three fully connected layers.</h2></div>
+    </div>
+    <p>AlexNet is an eight-layer learned network: five convolutional layers followed by three fully connected layers and a 1000-way softmax. The stored training images are 256×256 and are cropped to 224×224 patches for training.</p>
+    <div class="project-list" style="margin-top:32px">
+      <div class="project-row"><div class="num">01</div><h3>Spatial shrinking</h3><p>224×224 → 55×55 → 27×27 → 13×13 → 6×6. Pooling progressively compresses spatial information while the convolutional stack builds richer representations.</p></div>
+      <div class="project-row"><div class="num">02</div><h3>Feature depth</h3><p>96 → 256 → 384 → 384 → 256 feature maps. The network trades spatial resolution for increasing feature depth.</p></div>
+      <div class="project-row"><div class="num">03</div><h3>Regularization</h3><p>LRN follows Conv1 and Conv2; overlapping 3×3 pooling follows those normalized layers and Conv5; dropout is used in the first two fully connected layers.</p></div>
+      <div class="project-row"><div class="num">04</div><h3>Paper → reproduction</h3><p>The original paper distributed convolutional work across two GPUs. This reproduction ran on a single RTX 5050.</p></div>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <div class="project-section-head">
+      <div class="project-section-no">03 / Training</div>
+      <div><h2>The bottleneck wasn't only the model.</h2></div>
+    </div>
+    <p>A major part of the experiment was getting the data pipeline to keep the GPU supplied with data. Augmentation was performed on the CPU, so the dataloader had to be optimized to avoid leaving the GPU waiting.</p>
+    <div class="project-grid" style="margin-top:30px">
+      <div class="project-stat"><strong>150 GB</strong><span>ImageNet training data</span></div>
+      <div class="project-stat"><strong>62.4M</strong><span>trainable parameters</span></div>
+      <div class="project-stat"><strong>90</strong><span>training epochs</span></div>
+      <div class="project-stat"><strong>20 days</strong><span>dataset → reproduction</span></div>
+    </div>
+    <div class="project-list" style="margin-top:34px">
+      <div class="project-row"><div class="num">01</div><h3>Data</h3><p>Prepare the ImageNet training data, including image loading, resizing, cropping and augmentation.</p></div>
+      <div class="project-row"><div class="num">02</div><h3>System</h3><p>Tune the CPU-side dataloader and preprocessing path so augmentation does not become the bottleneck for GPU training.</p></div>
+      <div class="project-row"><div class="num">03</div><h3>Train</h3><p>Train the 62.4M-parameter implementation using SGD and the learning-rate schedule described in the paper.</p></div>
+      <div class="project-row"><div class="num">04</div><h3>Analyze</h3><p>Evaluate the model, inspect learned kernels and representations, and compare the reproduction with the reported paper results.</p></div>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <div class="project-section-head">
+      <div class="project-section-no">04 / Ablation studies</div>
+      <div><h2>Reproducing the paper's smaller experiments.</h2></div>
+    </div>
+    <p>The original AlexNet paper tested individual architectural choices rather than presenting only the final network. I reproduced two of those comparisons on a smaller four-layer CNN using CIFAR-10.</p>
+    <div class="compare" style="margin-top:30px">
+      <div class="compare-card soft"><h3>ReLU vs Tanh</h3><ul><li>The activation function is the isolated variable.</li><li>Both versions use the same four-layer CNN.</li><li>The reproduction used Adam with early stopping at the recorded accuracy threshold.</li><li>The paper found ReLU networks reached 25% training error substantially faster than equivalent Tanh networks.</li></ul></div>
+      <div class="compare-card"><h3>LRN vs No LRN</h3><ul><li>The normalization mechanism is isolated.</li><li>The same four-layer CNN is compared with and without Local Response Normalization.</li><li>The reproduction trained the two versions for 10 epochs with validation data.</li><li>The paper reports 13% test error without normalization and 11% with normalization on its CIFAR-10 comparison.</li></ul></div>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <div class="project-section-head">
+      <div class="project-section-no">05 / Results</div>
+      <div><h2>What the reproduction produced.</h2></div>
+    </div>
+    <p>After 90 epochs, the implementation reached the following recorded training and validation metrics.</p>
+    <div class="project-grid" style="margin-top:30px">
+      <div class="project-stat"><strong>55.47%</strong><span>training Top-1 accuracy</span></div>
+      <div class="project-stat"><strong>52.86%</strong><span>validation Top-1 accuracy</span></div>
+      <div class="project-stat"><strong>78.28%</strong><span>training Top-5 accuracy</span></div>
+      <div class="project-stat"><strong>75.73%</strong><span>recorded validation Top-5 metric*</span></div>
+    </div>
+    <div class="project-grid" style="margin-top:10px;grid-template-columns:repeat(2,1fr)">
+      <div class="project-stat"><strong>2.799</strong><span>training loss</span></div>
+      <div class="project-stat"><strong>2.96</strong><span>validation loss</span></div>
+    </div>
+    <div class="note"><p>* The project README records 75.73% as “Top-5 validation Loss”; it is presented here as recorded rather than silently reinterpreted.</p></div>
+    <div class="image-grid">
+      <figure class="image-block"><img src="https://prashanthprabhu24.github.io/PaperClip/Vision%20Models/AlexNet/viz/img.png" alt="Training and validation loss over the last 50 epochs"><figcaption class="image-caption">Training loss vs validation loss — last 50 epochs.</figcaption></figure>
+      <figure class="image-block"><img src="https://prashanthprabhu24.github.io/PaperClip/Vision%20Models/AlexNet/viz/img_1.png" alt="Training and validation Top-1 accuracy"><figcaption class="image-caption">Top-1 training accuracy vs validation accuracy.</figcaption></figure>
+      <figure class="image-block"><img src="https://prashanthprabhu24.github.io/PaperClip/Vision%20Models/AlexNet/viz/img_2.png" alt="Training and validation Top-5 accuracy"><figcaption class="image-caption">Top-5 training accuracy vs validation accuracy.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <div class="project-section-head">
+      <div class="project-section-no">06 / Reproduction gap</div>
+      <div><h2>The numbers didn't match. That's part of the experiment.</h2></div>
+    </div>
+    <p>The original paper reported 37.5% Top-1 error and 17.0% Top-5 error on its test data — approximately 62.5% Top-1 and 83% Top-5 accuracy. The implementation did not reach those numbers on the available validation evaluation.</p>
+    <div class="compare" style="margin-top:30px">
+      <div class="compare-card soft"><h3>Original paper</h3><ul><li>~62.5% Top-1 accuracy</li><li>~83% Top-5 accuracy</li><li>Test-data evaluation</li><li>Multi-GPU setup</li></ul></div>
+      <div class="compare-card"><h3>This reproduction</h3><ul><li>52.86% validation Top-1 accuracy</li><li>75.73% recorded validation Top-5 metric</li><li>Validation evaluation</li><li>Single RTX 5050</li></ul></div>
+    </div>
+    <div class="project-list" style="margin-top:32px">
+      <div class="project-row"><div class="num">01</div><h3>PCA color jitter</h3><p>The implementation used the simpler transformations described in the paper but did not implement PCA color jittering.</p></div>
+      <div class="project-row"><div class="num">02</div><h3>Multi-GPU training</h3><p>The original setup used multiple GPUs and cross-GPU connections; the implementation was trained on a single RTX 5050.</p></div>
+      <div class="project-row"><div class="num">03</div><h3>Learning-rate schedule</h3><p>An earlier learning-rate reduction was identified as another possible contributor to the difference.</p></div>
+      <div class="project-row"><div class="num">04</div><h3>No labeled test set</h3><p>The available test labels were not available, so evaluation was performed on the validation set. No hyperparameter tuning was performed.</p></div>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <div class="project-section-head">
+      <div class="project-section-no">07 / Visual record</div>
+      <div><h2>Looking inside the network.</h2></div>
+    </div>
+    <p>The visual analysis went beyond training curves: the first convolutional filters were inspected directly, the learned FC7 representation was used for nearest-neighbor retrieval, and prediction examples were examined through ranked outputs.</p>
+    <div class="image-block"><img src="https://prashanthprabhu24.github.io/PaperClip/Vision%20Models/AlexNet/viz/img_4.png" alt="Filters learned by AlexNet first convolutional layer"><div class="image-caption">01 / Learned filters — Conv1 filters from the trained network.</div></div>
+    <div class="image-block"><img src="https://prashanthprabhu24.github.io/PaperClip/Vision%20Models/AlexNet/viz/img_3.png" alt="FC7 nearest neighbor search coastal query"><div class="image-caption">02 / Representation search — nearest neighbors using the learned FC7 representation.</div></div>
+    <div class="image-grid">
+      <figure class="image-block"><img src="https://prashanthprabhu24.github.io/PaperClip/Vision%20Models/AlexNet/viz/img_5.png" alt="Nearest neighbor search for fox query"><figcaption class="image-caption">Representation search — fox query.</figcaption></figure>
+      <figure class="image-block"><img src="https://prashanthprabhu24.github.io/PaperClip/Vision%20Models/AlexNet/viz/img_6.png" alt="Nearest neighbor search for flower query"><figcaption class="image-caption">Representation search — flower query.</figcaption></figure>
+      <figure class="image-block"><img src="https://prashanthprabhu24.github.io/PaperClip/Vision%20Models/AlexNet/viz/img_8.png" alt="Nearest neighbor search for landscape query"><figcaption class="image-caption">Representation search — landscape query.</figcaption></figure>
+    </div>
+    <div class="image-block"><img src="https://prashanthprabhu24.github.io/PaperClip/Vision%20Models/AlexNet/viz/img_9.png" alt="AlexNet Top-5 prediction examples with probability bars"><div class="image-caption">03 / Prediction examples — Top-5 predictions for representative validation images.</div></div>
+  </section>
+
+  <section class="project-section">
+    <div class="project-section-head">
+      <div class="project-section-no">08 / Implementation record</div>
+      <div><h2>The work is reproducible, not just described.</h2></div>
+    </div>
+    <p>The implementation and experiments are kept as notebooks and project files: the main AlexNet notebook covers dataset loading, augmentation, model construction, training, evaluation and visualization; separate notebooks cover the LRN and ReLU reproduction studies.</p>
+    <div class="project-split" style="margin-top:30px">
+      <div class="project-card soft"><h3>AlexNet.ipynb</h3><p>Dataset loading, augmentation, model construction, training, evaluation and visualization.</p></div>
+      <div class="project-card"><h3>Focused experiments</h3><p>Local Response Normalization and Rectified Linear Unit nonlinearity experiments on the smaller CIFAR-10 setup.</p></div>
+    </div>
+  </section>
+
+  <section class="project-section takeaway">
+    <div class="project-section-head">
+      <div class="project-section-no">09 / Takeaway</div>
+      <div><h2>A model is more than its architecture.</h2></div>
+    </div>
+    <p>The implementation made the practical side of a classic deep-learning experiment visible: the dataset pipeline, preprocessing, compute, training schedule, evaluation choices and the small implementation details that can separate a reproduction from the original result.</p>
+    <p>AlexNet was published in 2012. Rebuilding it locally made me appreciate how much of deep learning is everything around the model itself.</p>
+  </section>
+</main>
+
+<footer class="footer project-page"><span class="small">© 2026 Prashanth N.</span><span class="small">AlexNet / Vision / Reproduction</span></footer>
+</body>
+</html>
