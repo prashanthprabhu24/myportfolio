@@ -13,72 +13,47 @@
 .work-page .section-intro{display:grid;grid-template-columns:1fr 3fr;gap:48px;margin-bottom:34px}
 .work-page .section-intro h2{font-size:clamp(28px,3vw,40px);font-weight:550;line-height:1.08;margin:0 0 12px;letter-spacing:-.035em}
 .work-page .work-note{max-width:720px;color:#555;font-size:16px;line-height:1.55;margin:0}
-.work-page .grid{grid-template-columns:repeat(3,1fr);gap:14px}
-.work-page .card{min-height:235px;padding:25px;border:1px solid rgba(16,17,22,.14);transition:transform .18s ease,border-color .18s ease}
+.work-page .card{display:block;min-height:235px;padding:25px;border:1px solid rgba(16,17,22,.14);transition:transform .18s ease,border-color .18s ease;text-decoration:none;color:inherit}
 .work-page .card:hover{transform:translateY(-2px);border-color:rgba(16,17,22,.34)}
 .work-page .card h3{font-size:23px;line-height:1.12;font-weight:600;letter-spacing:-.035em}
-.work-page .card p{font-size:15px;line-height:1.5;margin:0;color:#555}
-.work-page .card .card-copy{margin-top:auto}
+.work-page .card p{font-size:15px;line-height:1.5;margin:0;color:#555;max-width:700px}
+.work-page .card .card-copy{margin-top:72px}
 .work-page .card .tag{font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
 .work-page .note-strip{border-top:1px solid rgba(16,17,22,.12);padding-top:22px;margin-top:20px;color:#666;font-size:14px;line-height:1.5;max-width:850px}
-@media(max-width:800px){.work-page .section-intro{grid-template-columns:1fr;gap:16px}.work-page .grid{grid-template-columns:1fr}.work-page .card{min-height:205px}}
+@media(max-width:800px){.work-page .section-intro{grid-template-columns:1fr;gap:16px}}
 </style>
 </head>
 <body>
 <nav class="nav">
   <a class="brand" href="../">PRASHANTH N.</a>
   <div class="navlinks">
-    <a href="projects/">Projects</a>
-    <a href="github/">GitHub</a>
+    <a href="research-reproductions/">Research Reproductions</a>
   </div>
 </nav>
-
 <main class="work-page">
   <section class="hero">
     <div class="eyebrow">Work</div>
     <h1>Things I build.</h1>
-    <p>Projects, model implementations, experiments, and the code behind them.</p>
+    <p>Research reproductions, model implementations, experiments, and the code behind them.</p>
   </section>
-
   <section class="section">
     <div class="section-intro">
       <div class="eyebrow">01 / Explore</div>
       <div>
         <h2>Built by doing.</h2>
-        <p class="work-note">I learn by implementing things, training models, running experiments, and looking closely at what happens. This is where that work lives.</p>
+        <p class="work-note">The work here is centered on turning ideas from papers into working code, training models, running experiments, and looking closely at what happens.</p>
       </div>
     </div>
-
-    <div class="grid">
-      <a class="card accent-blue" href="projects/">
-        <div class="tag">Projects</div>
-        <div class="card-copy">
-          <h3>Models, systems &amp; experiments →</h3>
-          <p>From small foundational models to larger implementations and training studies.</p>
-        </div>
-      </a>
-
-      <a class="card accent-lime" href="../research/reproductions/">
-        <div class="tag">Research Reproductions</div>
-        <div class="card-copy">
-          <h3>Papers turned into working code →</h3>
-          <p>Implementations of research ideas to understand the architecture, mathematics, and experiments through practice.</p>
-        </div>
-      </a>
-
-      <a class="card accent-violet" href="github/">
-        <div class="tag">GitHub</div>
-        <div class="card-copy">
-          <h3>Code, notebooks &amp; repositories →</h3>
-          <p>The public code behind the things I build and investigate.</p>
-        </div>
-      </a>
-    </div>
-
-    <p class="note-strip">Some work belongs to more than one part of the site. A project can lead to a research question; a paper can become an implementation; an experiment can become a note.</p>
+    <a class="card accent-lime" href="research-reproductions/">
+      <div class="tag">Research Reproductions</div>
+      <div class="card-copy">
+        <h3>Papers turned into working code →</h3>
+        <p>From architecture and mathematics to training, evaluation, ablations, and implementation details. Each reproduction is a record of what happened when the paper met actual code and compute.</p>
+      </div>
+    </a>
+    <p class="note-strip">Code links live inside each reproduction where they belong, alongside the experiment they support.</p>
   </section>
 </main>
-
 <footer class="footer"><a href="../">← Home</a></footer>
 </body>
 </html>
