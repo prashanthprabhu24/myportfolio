@@ -27,3 +27,30 @@
 .resume-mini-btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
 .resume-mini-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 @media(max-width:800px){.resume-download-box{justify-content:flex-start;flex-wrap:wrap;margin-top:12px}.resume-download-buttons{justify-content:flex-start}}
+
+/* Footer back links: align with the main content column instead of the viewport edge. */
+.footer {
+  width: min(1200px, 92vw);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 55px 0;
+}
+
+/* Back links used inside article/detail pages. */
+.back {
+  margin-top: 54px;
+  padding-bottom: 20px;
+}
+
+/* Keep the same horizontal rhythm on smaller screens. */
+@media (max-width: 800px) {
+  .footer {
+    width: 92vw;
+    padding: 42px 0;
+  }
+
+  .back {
+    margin-top: 42px;
+    padding-bottom: 16px;
+  }
+}
