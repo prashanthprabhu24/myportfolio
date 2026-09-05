@@ -29,7 +29,6 @@ Folder Arch :
 your-repo/
 │
 ├── index.html
-├── about/
 │   └── index.html
 ├── work/
 │   ├── index.html
@@ -51,7 +50,6 @@ your-repo/
 │   └── questions/
 │
 ├── learning/
-├── now/
 ├── contact/
 │
 ├── assets/
