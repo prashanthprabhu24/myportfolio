@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Derivatives in Various Frameworks — Prashanth N</title>
+<link rel="stylesheet" href="../../../assets/site.css">
+<style>
+body{background:#fff;color:#101116}
+.note-page{padding:7vh 0 10vh}
+.note-page h1{font-size:clamp(40px,5vw,64px);line-height:1.03;letter-spacing:-.045em;font-weight:600;margin:0 0 16px}
+.note-subtitle{font-size:18px;line-height:1.5;color:#666;max-width:760px;margin:0 0 48px}
+.notebook{border-top:1px solid rgba(16,17,22,.14);padding-top:36px;max-width:980px}
+.notebook .cell{margin:0 0 30px}
+.notebook .text_cell_render{font-size:16px;line-height:1.7;max-width:900px}
+.notebook .text_cell_render p{margin:0 0 14px}
+.notebook .text_cell_render h1,.notebook .text_cell_render h2,.notebook .text_cell_render h3{line-height:1.2;letter-spacing:-.025em}
+.notebook .text_cell_render h3{font-size:25px;margin:42px 0 18px}
+.notebook pre{overflow:auto;padding:18px 20px;background:#f6f6f4;border:1px solid rgba(16,17,22,.1);border-radius:6px;font-size:13px;line-height:1.55;max-width:100%;box-sizing:border-box}
+.notebook .output_area{margin-top:12px}
+.notebook .output_png{text-align:left}
+.notebook img{max-width:100%;height:auto}
+.notebook .output_stderr,.notebook .output_error{white-space:pre-wrap}
+.notebook .prompt{display:none}
+.back{margin-top:30px}
+@media(max-width:800px){.note-page{padding-top:5vh}.notebook .text_cell_render{font-size:15px}.notebook pre{font-size:12px;padding:14px}}
+</style>
+</head>
+<body>
+<nav class="nav"><a class="brand" href="../../../">PRASHANTH N.</a><div class="navlinks"><a href="../../../work/">Work</a><a href="../../../research/">Research</a><a href="../../../thinking/">Thinking</a><a href="../../../learning/">Learning</a></div></nav>
+<main><section class="note-page">
+<div class="eyebrow">Thinking / Notes</div>
+<h1>Derivatives in Various Frameworks</h1>
+<p class="note-subtitle">Computing first- and second-order derivatives with TensorFlow, PyTorch, and JAX.</p>
+<div class="notebook"><div class="cell border-box-sizing code_cell rendered" id="cell-id=initial_id">
+<div class="input">
+<div class="prompt input_prompt">In [1]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">jnp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=3d60bed8275ec8a7"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="First-Order-Derivative">First-Order Derivative<a class="anchor-link" href="#First-Order-Derivative">¶</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=8023cb4be571e5da">
+<div class="input">
+<div class="prompt input_prompt">In [77]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="n">initial_value</span> <span class="o">=</span> <span class="mf">3.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=98534332bdbd364d">
+<div class="input">
+<div class="prompt input_prompt">In [78]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="c1"># TensorFlow</span>
+<span class="n">input_var</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">initial_value</span><span class="o">=</span><span class="n">initial_value</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">input_var</span><span class="p">)</span> <span class="c1"># X^2</span>
+<span class="n">gradient</span> <span class="o">=</span> <span class="n">tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">input_var</span><span class="p">)</span> <span class="c1"># 2*X</span>
+<span class="n">result</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">gradient</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[78]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>(9.0, 6.0)</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=cfc0cb33123d4417">
+<div class="input">
+<div class="prompt input_prompt">In [79]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Torch</span>
+<span class="n">input_var</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">initial_value</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">input_var</span><span class="p">)</span> <span class="c1"># X^2</span>
+<span class="n">result</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span> <span class="c1"># 2*X</span>
+<span class="n">gradient</span> <span class="o">=</span> <span class="n">input_var</span><span class="o">.</span><span class="n">grad</span>
+<span class="n">input_var</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">result</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">gradient</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[79]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>(9.0, 6.0)</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=7b5de5b569dad69d">
+<div class="input">
+<div class="prompt input_prompt">In [100]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="c1"># JAX</span>
+<span class="n">input_var</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">initial_value</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">functionA</span><span class="p">(</span><span class="n">input_var</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">input_var</span><span class="p">)</span>
+
+<span class="n">grad_functionA</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">functionA</span><span class="p">)</span> <span class="c1"># X^2, 2*X</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">functionA</span><span class="p">(</span><span class="n">input_var</span><span class="p">)</span>
+<span class="n">gradient</span> <span class="o">=</span> <span class="n">grad_functionA</span><span class="p">(</span><span class="n">input_var</span><span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">gradient</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[100]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>(9.0, 6.0)</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=bf8fb4f7fba5efcd"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Second-Order-Derivative">Second-Order Derivative<a class="anchor-link" href="#Second-Order-Derivative">¶</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=90d3ce96d626b19b">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="n">initial_value</span> <span class="o">=</span> <span class="mf">0.4</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=6d1096dec2450bfc">
+<div class="input">
+<div class="prompt input_prompt">In [85]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="c1"># TensorFlow</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">initial_value</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">outer_tape</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">inner_tape</span><span class="p">:</span>
+        <span class="n">position</span> <span class="o">=</span> <span class="mf">4.9</span> <span class="o">*</span> <span class="n">time</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">speed</span> <span class="o">=</span> <span class="n">inner_tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
+<span class="n">acceleration</span> <span class="o">=</span> <span class="n">outer_tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">speed</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Time:         </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Position:     </span><span class="si">{</span><span class="n">position</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Speed:        </span><span class="si">{</span><span class="n">speed</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Acceleration: </span><span class="si">{</span><span class="n">acceleration</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Time:         3.0000
+Position:     44.1000
+Speed:        29.4000
+Acceleration: 9.8000
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=f7a27cb187474363">
+<div class="input">
+<div class="prompt input_prompt">In [86]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Torch</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">initial_value</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">position</span> <span class="o">=</span> <span class="mf">4.9</span> <span class="o">*</span> <span class="n">time</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">position</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">create_graph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">speed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">grad</span>
+<span class="n">time</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">speed</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="n">acceleration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">grad</span>
+<span class="n">time</span><span class="o">.</span><span class="n">grade</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Time:         </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Position:     </span><span class="si">{</span><span class="n">position</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Speed:        </span><span class="si">{</span><span class="n">speed</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Acceleration: </span><span class="si">{</span><span class="n">acceleration</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Time:         3.0000
+Position:     44.1000
+Speed:        29.4000
+Acceleration: 9.8000
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=28bdd1b04a4cdb25">
+<div class="input">
+<div class="prompt input_prompt">In [98]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="c1"># JAX</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">initial_value</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_position</span><span class="p">(</span><span class="n">time</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">4.9</span> <span class="o">*</span> <span class="n">time</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">get_speed</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">get_position</span><span class="p">)</span>
+<span class="n">get_acceleration</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">get_speed</span><span class="p">)</span>
+<span class="n">position</span> <span class="o">=</span> <span class="n">get_position</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+<span class="n">speed</span> <span class="o">=</span> <span class="n">get_speed</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+<span class="n">acceleration</span> <span class="o">=</span> <span class="n">get_acceleration</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Time:         </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Position:     </span><span class="si">{</span><span class="n">position</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Speed:        </span><span class="si">{</span><span class="n">speed</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Acceleration: </span><span class="si">{</span><span class="n">acceleration</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Time:         3.0000
+Position:     44.1000
+Speed:        29.4000
+Acceleration: 9.8000
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="back"><a href="../">← Notes</a></div>
+</section></main>
+<footer class="footer"><a href="../../">← Thinking</a></footer>
+</body>
+</html>
