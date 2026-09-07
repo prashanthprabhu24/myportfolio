@@ -27,6 +27,47 @@
 .repro-page .metric span{font-size:11px;color:#666}
 .repro-page .note{margin-top:34px;padding-top:14px;border-top:1px solid rgba(16,17,22,.12);font-size:13px;color:#666}
 @media(max-width:800px){.repro-page .title-row{align-items:flex-start;flex-direction:column;gap:10px}.repro-page .title-row h2{font-size:32px}.repro-page .metrics{grid-template-columns:repeat(2,1fr)}}
+.repro-page .card-actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:28px;
+}
+
+.repro-page .card-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:11px 16px;
+    border:1px solid rgba(16,17,22,.22);
+    border-radius:999px;
+    text-decoration:none;
+    color:var(--ink);
+    font-size:12px;
+    font-weight:800;
+    transition:transform .18s ease,
+               background .18s ease,
+               border-color .18s ease;
+}
+
+.repro-page .card-btn:hover{
+    transform:translateY(-2px);
+    background:var(--ink);
+    color:white;
+    border-color:var(--ink);
+}
+
+.repro-page .card-btn:first-child{
+    background:var(--ink);
+    color:white;
+    border-color:var(--ink);
+}
+
+.repro-page .card-btn:first-child:hover{
+    background:transparent;
+    color:var(--ink);
+}
+
 </style>
 </head>
 <body>
@@ -36,17 +77,55 @@
 <section class="section">
   <div class="group">
     <div class="group-heading"><div class="group-number">01</div><h2>Vision</h2></div>
-    <a class="card accent-blue" href="alexnet.html">
-      <div class="tag">Computer Vision · 2012 · Reproduction</div>
-      <div class="title-row"><h2>AlexNet</h2><span class="arrow">Open reproduction →</span></div>
-      <p>A from-scratch reproduction of <em>ImageNet Classification with Deep Convolutional Neural Networks</em>, including the ImageNet data pipeline, training setup, paper ablations, evaluation, and visual analysis.</p>
-      <div class="metrics">
-        <div class="metric"><strong>1.2M+</strong><span>training images</span></div>
-        <div class="metric"><strong>62.4M</strong><span>parameters</span></div>
-        <div class="metric"><strong>90</strong><span>epochs</span></div>
-        <div class="metric"><strong>~40h</strong><span>model training</span></div>
-      </div>
-    </a>
+    <div class="card accent-blue">
+    <div class="tag">Computer Vision · 2012 · Reproduction</div>
+
+    <div class="title-row">
+        <h2>AlexNet</h2>
+        <a class="arrow" href="alexnet.html">Open reproduction →</a>
+    </div>
+
+    <p>
+        A from-scratch reproduction of
+        <em>ImageNet Classification with Deep Convolutional Neural Networks</em>,
+        including the ImageNet data pipeline, training setup, paper ablations,
+        evaluation, and visual analysis.
+    </p>
+
+    <div class="metrics">
+        <div class="metric">
+            <strong>1.2M+</strong>
+            <span>training images</span>
+        </div>
+        <div class="metric">
+            <strong>62.4M</strong>
+            <span>parameters</span>
+        </div>
+        <div class="metric">
+            <strong>90</strong>
+            <span>epochs</span>
+        </div>
+        <div class="metric">
+            <strong>~40h</strong>
+            <span>model training</span>
+        </div>
+    </div>
+
+    <div class="card-actions">
+        <a class="card-btn"
+           href="alexnet.html">
+            Open reproduction →
+        </a>
+
+        <a class="card-btn"
+           href="https://drive.google.com/file/d/17Cw3TuYnMuiR-ml0DdaNvx4aHbJ88XUa/view?usp=drive_link"
+           target="_blank"
+           rel="noopener noreferrer">
+            Download trained model ↗
+        </a>
+    </div>
+</div>
+
   </div>
 </section>
 </main>
