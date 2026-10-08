@@ -1152,6 +1152,832 @@ footer strong{color:white}
     }
 }
 
+/* Small operational notes for the live demo. */
+.alexnet-demo-notes {
+    margin-top: 11px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 14px;
+    color: #727783;
+    font-size: 10px;
+    line-height: 1.45;
+}
+.alexnet-demo-notes span::before {
+    content: "•";
+    margin-right: 5px;
+}
+
+.alexnet-retry {
+    margin-top: 12px;
+    padding: 9px 13px;
+    border: 1px solid rgba(16,17,22,.22);
+    border-radius: 999px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+}
+.alexnet-retry:hover {
+    background: rgba(16,17,22,.05);
+}
+/* =========================================================
+   LIVE ALEXNET INFERENCE DEMO
+   ========================================================= */
+
+.alexnet-live {
+    margin-top: 42px;
+    display: grid;
+    grid-template-columns: minmax(280px, .82fr) minmax(360px, 1.18fr);
+    gap: 18px;
+    align-items: stretch;
+}
+
+.alexnet-upload-card,
+.alexnet-output-card {
+    border: 1px solid var(--line);
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 20px 55px rgba(16,17,22,.07);
+}
+
+.alexnet-upload-card {
+    padding: 18px;
+    background: var(--ink);
+    color: white;
+}
+
+.alexnet-preview.alexnet-dragover {
+    outline: 2px solid var(--blue, #3157ff);
+    outline-offset: -2px;
+    background: rgba(49, 87, 255, .06);
+}
+
+.alexnet-preview {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    min-height: 300px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(49,87,255,.22), transparent 35%),
+        radial-gradient(circle at 80% 80%, rgba(180,255,50,.12), transparent 32%),
+        #191b21;
+    border: 1px solid rgba(255,255,255,.10);
+}
+
+.alexnet-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.alexnet-preview-placeholder {
+    padding: 28px;
+    text-align: center;
+    color: #7f8590;
+}
+
+.alexnet-preview-placeholder .upload-glyph {
+    width: 62px;
+    height: 62px;
+    margin: 0 auto 17px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 50%;
+    color: white;
+    font-size: 25px;
+}
+
+.alexnet-preview-placeholder strong {
+    display: block;
+    color: #e8e9ec;
+    font-size: 14px;
+    font-weight: 850;
+}
+
+.alexnet-preview-placeholder span {
+    display: block;
+    margin-top: 5px;
+    font-size: 11px;
+    letter-spacing: .04em;
+}
+
+.alexnet-upload-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.alexnet-upload-btn {
+    flex: 1;
+    min-height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 17px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--lime);
+    color: var(--ink);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 950;
+    cursor: pointer;
+    transition: transform .2s ease, opacity .2s ease;
+}
+
+.alexnet-upload-btn:hover {
+    transform: translateY(-2px);
+}
+
+.alexnet-upload-btn:disabled {
+    cursor: wait;
+    opacity: .55;
+    transform: none;
+}
+
+.alexnet-reset-btn {
+    width: 50px;
+    height: 50px;
+    flex: 0 0 50px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 50%;
+    background: transparent;
+    color: white;
+    font: inherit;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.alexnet-reset-btn:hover {
+    background: rgba(255,255,255,.08);
+    transform: rotate(-10deg);
+}
+
+.alexnet-status {
+    min-height: 20px;
+    margin: 12px 3px 1px;
+    color: #9298a2;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.alexnet-output-card {
+    padding: 30px;
+    background: white;
+}
+
+.alexnet-output-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+}
+
+.alexnet-output-kicker {
+    color: var(--blue);
+    font-size: 9px;
+    font-weight: 950;
+    letter-spacing: .17em;
+    text-transform: uppercase;
+}
+
+.alexnet-output-head h4 {
+    margin: 7px 0 0;
+    font-size: clamp(27px, 3vw, 36px);
+    line-height: .98;
+    letter-spacing: -.055em;
+}
+
+.alexnet-model-tag {
+    flex: 0 0 auto;
+    padding: 7px 10px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+}
+
+.alexnet-predictions {
+    margin-top: 25px;
+}
+
+.alexnet-empty {
+    min-height: 290px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.alexnet-empty-number {
+    color: #e7e5de;
+    font-size: 88px;
+    font-weight: 950;
+    line-height: .8;
+    letter-spacing: -.09em;
+}
+
+.alexnet-empty p {
+    max-width: 330px;
+    margin: 20px 0 0;
+    color: #707680;
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.alexnet-prediction {
+    margin-bottom: 22px;
+}
+
+.alexnet-prediction:last-child {
+    margin-bottom: 0;
+}
+
+.alexnet-prediction-meta {
+    display: grid;
+    grid-template-columns: 25px minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 9px;
+    margin-bottom: 8px;
+}
+
+.alexnet-rank {
+    color: #969ba4;
+    font-size: 10px;
+    font-weight: 950;
+    letter-spacing: .08em;
+}
+
+.alexnet-label {
+    min-width: 0;
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 850;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+.alexnet-confidence {
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 950;
+    font-variant-numeric: tabular-nums;
+}
+
+.alexnet-progress {
+    height: 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #ecebe5;
+}
+
+.alexnet-progress-bar {
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--blue);
+    transition: width .8s cubic-bezier(.2,.8,.2,1);
+}
+
+.alexnet-prediction:nth-child(1) .alexnet-progress-bar {
+    background: var(--orange);
+}
+
+.alexnet-prediction:nth-child(2) .alexnet-progress-bar {
+    background: var(--blue);
+}
+
+.alexnet-prediction:nth-child(3) .alexnet-progress-bar {
+    background: var(--ink);
+}
+
+.alexnet-prediction:nth-child(4) .alexnet-progress-bar {
+    background: #727781;
+}
+
+.alexnet-prediction:nth-child(5) .alexnet-progress-bar {
+    background: #a7abb2;
+}
+
+.alexnet-loading {
+    min-height: 290px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: #737983;
+    font-size: 13px;
+}
+
+.alexnet-spinner {
+    width: 17px;
+    height: 17px;
+    border: 2px solid #d9d9d3;
+    border-top-color: var(--blue);
+    border-radius: 50%;
+    animation: alexnet-spin .75s linear infinite;
+}
+
+@keyframes alexnet-spin {
+    to { transform: rotate(360deg); }
+}
+
+.alexnet-error {
+    min-height: 290px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 22px;
+    border-radius: 20px;
+    background: #fff0ed;
+    color: #9b392b;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.alexnet-error strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 15px;
+}
+
+.alexnet-footnote {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    color: #7b818b;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+@media (max-width: 850px) {
+    .alexnet-live {
+        grid-template-columns: 1fr;
+    }
+
+    .alexnet-preview {
+        aspect-ratio: 16 / 10;
+        min-height: 0;
+    }
+}
+
+@media (max-width: 560px) {
+    .alexnet-output-card {
+        padding: 22px;
+    }
+
+    .alexnet-output-head {
+        display: block;
+    }
+
+    .alexnet-model-tag {
+        display: inline-block;
+        margin-top: 12px;
+    }
+
+    .alexnet-preview {
+        aspect-ratio: 4 / 3;
+    }
+}
+
+/* HERO LIVE INFERENCE — SINGLE FRAME ON THE RIGHT */
+.hero-inner{
+    display:grid;
+    grid-template-columns:minmax(0,1.12fr) minmax(340px,.78fr);
+    gap:clamp(42px,6vw,88px);
+    align-items:center;
+}
+.hero-copy{min-width:0;order:1;}
+.hero-copy .hero-sub{max-width:650px;}
+.hero-demo{
+    width:100%;
+    max-width:430px;
+    justify-self:end;
+    order:2;
+}
+.hero-demo > .mini-label{
+    margin:0 0 11px 3px!important;
+    color:#515762;
+}
+.hero-demo .alexnet-live{
+    margin-top:0;
+    display:block;
+    padding:14px;
+    background:rgba(255,255,255,.94);
+    border:1px solid rgba(16,17,22,.13);
+    border-radius:24px;
+    box-shadow:0 24px 70px rgba(16,17,22,.13);
+}
+.hero-demo .alexnet-upload-card,
+.hero-demo .alexnet-output-card{
+    padding:0;
+    margin:0;
+    background:transparent;
+    color:inherit;
+    border:0;
+    border-radius:0;
+    box-shadow:none;
+}
+.hero-demo .alexnet-preview{
+    min-height:0;
+    aspect-ratio:1.35 / 1;
+    border-radius:17px;
+}
+.hero-demo .alexnet-preview-placeholder{padding:20px;}
+.hero-demo .alexnet-preview-placeholder .upload-glyph{
+    width:46px;
+    height:46px;
+    margin-bottom:11px;
+    font-size:19px;
+}
+.hero-demo .alexnet-upload-actions{margin-top:11px;}
+.hero-demo .alexnet-upload-btn{min-height:43px;padding:0 15px;}
+.hero-demo .alexnet-reset-btn{width:43px;height:43px;}
+.hero-demo .alexnet-status{padding:9px 2px 0;font-size:10px;}
+.hero-demo .alexnet-output-card{
+    margin-top:16px;
+    padding-top:16px;
+    border-top:1px solid rgba(16,17,22,.12);
+}
+.hero-demo .alexnet-output-head{margin-bottom:13px;}
+.hero-demo .alexnet-output-kicker{font-size:9px;}
+.hero-demo .alexnet-output-head h4{font-size:20px;}
+.hero-demo .alexnet-model-badge{padding:5px 8px;font-size:9px;}
+.hero-demo .alexnet-prediction{padding:8px 0;}
+.hero-demo .alexnet-label{font-size:11px;}
+.hero-demo .alexnet-confidence{font-size:11px;}
+.hero-demo .alexnet-progress{height:5px;margin-top:5px;}
+.hero-demo .alexnet-output-footnote{margin-top:10px;padding-top:10px;font-size:9px;}
+@media(max-width:900px){
+    .hero-inner{grid-template-columns:1fr;gap:48px;}
+    .hero-demo{max-width:520px;justify-self:center;}
+}
+
+
+/* =========================================================
+   FINAL HERO INFERENCE — integrated, not a separate app/card
+   ========================================================= */
+.hero-inner{
+    display:grid;
+    grid-template-columns:minmax(0,1.08fr) minmax(390px,.72fr);
+    gap:clamp(44px,6vw,88px);
+    align-items:center;
+}
+.hero-copy{min-width:0;order:1}
+.hero-copy .hero-sub{max-width:670px}
+.hero-demo{
+    width:100%;
+    max-width:440px;
+    justify-self:end;
+    order:2;
+}
+
+.hero-demo .alexnet-live{
+    display:block;
+    margin:0;
+    padding:20px;
+    background:rgba(244,242,235,.58);
+    border:1px solid var(--line);
+    border-radius:22px;
+    box-shadow:none;
+}
+
+.alexnet-hero-label{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:0 1px 14px;
+    color:#515762;
+    font-size:10px;
+    line-height:1;
+    font-weight:950;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+}
+.alexnet-hero-label span{
+    color:#777d86;
+    letter-spacing:.08em;
+    font-weight:800;
+}
+
+.hero-demo .alexnet-upload-card,
+.hero-demo .alexnet-output-card{
+    margin:0;
+    padding:0;
+    background:transparent;
+    color:var(--ink);
+    border:0;
+    border-radius:0;
+    box-shadow:none;
+    overflow:visible;
+}
+
+.hero-demo .alexnet-preview{
+    aspect-ratio:1.48 / 1;
+    min-height:0;
+    border:1px dashed rgba(16,17,22,.22);
+    border-radius:15px;
+    background:rgba(255,255,255,.22);
+}
+.hero-demo .alexnet-preview img{
+    border-radius:15px;
+}
+.hero-demo .alexnet-preview-placeholder{
+    padding:28px 22px;
+    color:#727984;
+}
+.hero-demo .alexnet-preview-placeholder .upload-glyph{
+    width:42px;
+    height:42px;
+    margin-bottom:10px;
+    border:1px solid rgba(16,17,22,.18);
+    color:var(--ink);
+    font-size:18px;
+}
+.hero-demo .alexnet-preview-placeholder strong{
+    color:var(--ink);
+    font-size:13px;
+}
+.hero-demo .alexnet-preview-placeholder span{
+    max-width:250px;
+    margin-left:auto;
+    margin-right:auto;
+    font-size:10px;
+}
+
+.hero-demo .alexnet-upload-actions{
+    margin-top:11px;
+    gap:8px;
+}
+.hero-demo .alexnet-upload-btn{
+    min-height:40px;
+    padding:0 14px;
+    background:var(--ink);
+    color:#fff;
+    font-size:11px;
+    border-radius:999px;
+    box-shadow:none;
+}
+.hero-demo .alexnet-upload-btn:hover{transform:none;opacity:.9}
+.hero-demo .alexnet-reset-btn{
+    width:40px;
+    height:40px;
+    flex-basis:40px;
+    border:1px solid var(--line);
+    color:var(--ink);
+    background:transparent;
+    font-size:15px;
+}
+.hero-demo .alexnet-reset-btn:hover{
+    background:rgba(16,17,22,.05);
+    transform:none;
+}
+.hero-demo .alexnet-status{
+    min-height:16px;
+    margin:7px 2px 0;
+    padding:0;
+    color:#777d86;
+    font-size:9px;
+}
+
+/* Output is part of the same frame: just content separated by a rule. */
+.hero-demo .alexnet-output-card{
+    margin-top:17px;
+    padding-top:17px;
+    border-top:1px solid var(--line);
+}
+.hero-demo .alexnet-output-head{
+    align-items:baseline;
+    padding:0;
+    margin:0 0 13px;
+    border:0;
+}
+.hero-demo .alexnet-output-kicker{
+    font-size:9px;
+    letter-spacing:.16em;
+}
+.hero-demo .alexnet-output-head h4{
+    margin:5px 0 0;
+    font-size:21px;
+    line-height:1;
+    letter-spacing:-.045em;
+}
+.hero-demo .alexnet-model-tag{
+    padding:0;
+    border:0;
+    font-size:9px;
+    color:#777d86;
+}
+.hero-demo .alexnet-predictions{margin-top:0}
+.hero-demo .alexnet-prediction{
+    margin:0;
+    padding:9px 0;
+    border-top:1px solid rgba(16,17,22,.08);
+}
+.hero-demo .alexnet-prediction-meta{
+    display:grid;
+    grid-template-columns:25px minmax(0,1fr) auto;
+    gap:7px;
+    align-items:baseline;
+}
+.hero-demo .alexnet-rank{
+    color:#888e96;
+    font-size:9px;
+    font-weight:900;
+}
+.hero-demo .alexnet-label{
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:11px;
+    font-weight:750;
+}
+.hero-demo .alexnet-confidence{
+    font-size:10px;
+    font-weight:900;
+}
+.hero-demo .alexnet-progress{
+    height:3px;
+    margin:5px 0 0 32px;
+    background:rgba(16,17,22,.08);
+    border-radius:999px;
+}
+.hero-demo .alexnet-progress-bar{
+    height:100%;
+    border-radius:inherit;
+    background:var(--blue);
+}
+.hero-demo .alexnet-prediction:first-child .alexnet-progress-bar{background:var(--orange)}
+.hero-demo .alexnet-output-footnote{
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px solid rgba(16,17,22,.08);
+    color:#858b94;
+    font-size:8.5px;
+    line-height:1.5;
+}
+.hero-demo .alexnet-empty{
+    min-height:0;
+    padding:8px 0 3px;
+}
+.hero-demo .alexnet-empty-number{display:none}
+.hero-demo .alexnet-empty p{
+    max-width:none;
+    margin:0;
+    color:#777d86;
+    font-size:10px;
+    line-height:1.55;
+}
+.hero-demo .alexnet-loading{
+    min-height:120px;
+    display:grid;
+    place-items:center;
+    color:#777d86;
+    font-size:10px;
+}
+.hero-demo .alexnet-error{
+    margin:8px 0 0;
+    padding:12px;
+    background:transparent;
+    border:0;
+    border-top:1px solid rgba(255,104,79,.25);
+    border-radius:0;
+    color:#9a4c3e;
+    font-size:10px;
+    line-height:1.5;
+}
+
+@media(max-width:900px){
+    .hero-inner{
+        grid-template-columns:1fr;
+        gap:48px;
+    }
+    .hero-demo{
+        max-width:520px;
+        justify-self:center;
+    }
+}
+
+
+/* =========================================================
+   HERO INFERENCE — EDITORIAL REFINEMENT
+   ========================================================= */
+.hero-inner{
+    grid-template-columns:minmax(0,1.08fr) minmax(360px,.72fr);
+    gap:clamp(48px,6vw,92px);
+}
+.hero-demo{
+    max-width:430px;
+}
+.hero-demo .alexnet-live{
+    padding:17px;
+    background:rgba(244,242,235,.52);
+    border:1px solid rgba(16,17,22,.16);
+    border-radius:18px;
+    box-shadow:none;
+}
+.alexnet-hero-label{
+    margin:0 2px 13px;
+    font-size:9px;
+    letter-spacing:.16em;
+}
+.alexnet-hero-label > span:first-child{color:#515762;}
+.alexnet-hero-label > span:last-child{
+    color:#7a8089;
+    font-weight:800;
+    letter-spacing:.08em;
+}
+.hero-demo .alexnet-preview{
+    aspect-ratio:1.55 / 1;
+    border:1px solid rgba(16,17,22,.15);
+    border-radius:13px;
+    background:rgba(255,255,255,.25);
+}
+.hero-demo .alexnet-preview img{
+    border-radius:13px;
+}
+.hero-demo .alexnet-preview-placeholder{
+    padding:22px;
+}
+.hero-demo .alexnet-preview-placeholder .upload-glyph{
+    width:38px;height:38px;margin-bottom:8px;font-size:16px;
+}
+.hero-demo .alexnet-preview-placeholder strong{font-size:12px;}
+.hero-demo .alexnet-preview-placeholder span{font-size:9px;max-width:220px;}
+.hero-demo .alexnet-preview .alexnet-upload-btn{
+    position:absolute;
+    right:10px;
+    bottom:10px;
+    z-index:2;
+    min-height:34px;
+    padding:0 12px;
+    border-radius:999px;
+    background:rgba(16,17,22,.92);
+    color:#fff;
+    font-size:10px;
+    box-shadow:0 6px 18px rgba(16,17,22,.18);
+}
+.hero-demo .alexnet-preview .alexnet-upload-btn:hover{transform:none;opacity:.92;}
+.hero-demo .alexnet-image-row{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    min-height:35px;
+}
+.hero-demo .alexnet-status{
+    padding:7px 1px 0;
+    font-size:9px;
+}
+.hero-demo .alexnet-reset-btn{
+    flex:0 0 32px;width:32px;height:32px;
+    margin-top:6px;
+    border:1px solid rgba(16,17,22,.17);
+    background:transparent;color:var(--ink);
+    border-radius:50%;font-size:14px;
+}
+.hero-demo .alexnet-demo-notes{
+    display:flex;flex-wrap:wrap;gap:4px 12px;
+    margin-top:5px;
+    padding-top:7px;
+    border-top:1px solid rgba(16,17,22,.09);
+    color:#747a83;
+    font-size:8px;
+    line-height:1.4;
+}
+.hero-demo .alexnet-output-card{
+    margin-top:15px;
+    padding-top:14px;
+    border-top:1px solid rgba(16,17,22,.13);
+}
+.hero-demo .alexnet-output-head{margin-bottom:8px;}
+.hero-demo .alexnet-output-kicker{font-size:8px;letter-spacing:.16em;}
+.hero-demo .alexnet-output-head h4{
+    margin-top:4px;font-size:19px;letter-spacing:-.04em;
+}
+.hero-demo .alexnet-prediction{padding:7px 0;}
+.hero-demo .alexnet-label{font-size:10px;}
+.hero-demo .alexnet-confidence{font-size:10px;}
+.hero-demo .alexnet-progress{height:4px;margin-top:5px;}
+.hero-demo .alexnet-output-footnote{
+    margin-top:8px;padding-top:8px;font-size:8px;
+}
+@media(max-width:900px){
+    .hero-inner{grid-template-columns:1fr;gap:45px;}
+    .hero-demo{max-width:520px;justify-self:center;}
+}
+
 </style>
 </head>
 
@@ -1170,45 +1996,61 @@ footer strong{color:white}
 
 <section class="hero">
     <div class="hero-inner">
-        <div class="kicker"><span class="dot"></span> 01 / COMPUTER VISION / REPRODUCTION</div>
-        <h1>Alex<span>Net</span>.</h1>
-        <p class="hero-sub">
-            Reproducing a landmark convolutional neural network from the paper
-            <em>ImageNet Classification with Deep Convolutional Neural Networks</em>,
-            then training it on a large-scale ImageNet dataset from scratch.
-        </p>
-
-        <div class="meta">
-            <span class="pill">2012 Paper</span>
-            <span class="pill">CNN</span>
-            <span class="pill">ImageNet</span>
-            <span class="pill">PyTorch / Keras</span>
-            <span class="pill">RTX 5050</span>
-            <span class="pill">ReLU / LRN Studies</span>
+        <div class="hero-copy">
+            <div class="kicker"><span class="dot"></span> 01 / COMPUTER VISION / REPRODUCTION</div>
+            <h1>Alex<span>Net</span>.</h1>
+            <p class="hero-sub">Reproducing a landmark convolutional neural network from the paper <em>ImageNet Classification with Deep Convolutional Neural Networks</em>, then training it on a large-scale ImageNet dataset from scratch.</p>
+            <div class="meta"><span class="pill">2012 Paper</span><span class="pill">CNN</span><span class="pill">ImageNet</span><span class="pill">PyTorch / Keras</span><span class="pill">RTX 5050</span><span class="pill">ReLU / LRN Studies</span></div>
+            <div class="actions">
+                <a class="btn primary" href="https://github.com/prashanthprabhu24/PaperClip/tree/main/Vision%20Models/AlexNet" target="_blank">View implementation ↗</a>
+                <a class="btn secondary" href="https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf" target="_blank">Read original paper ↗</a>
+                <a class="btn secondary" href="https://drive.google.com/file/d/17Cw3TuYnMuiR-ml0DdaNvx4aHbJ88XUa/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Download trained model ↗</a>
+            </div>
         </div>
+        <div class="hero-demo">
+            <div class="alexnet-live">
+                <div class="alexnet-hero-label">
+                    <span>LIVE INFERENCE</span>
+                    <span>AlexNet / ImageNet-1K</span>
+                </div>
 
-        <div class="actions">
-    <a class="btn primary"
-       href="https://github.com/prashanthprabhu24/PaperClip/tree/main/Vision%20Models/AlexNet"
-       target="_blank">
-        View implementation ↗
-    </a>
+                <div class="alexnet-upload-card">
+                    <div class="alexnet-preview" id="alexnetPreview">
+                        <div class="alexnet-preview-placeholder">
+                            <div class="upload-glyph">↑</div>
+                            <strong>Upload an image</strong>
+                            <span>Classify it with the reproduced AlexNet.</span>
+                        </div>
+                        <button class="alexnet-upload-btn" id="alexnetUploadBtn" type="button">
+                            <span>Choose image</span><span>↗</span>
+                        </button>
+                    </div>
+                    <input type="file" id="alexnetFile" accept="image/*" hidden>
+                    <div class="alexnet-image-row">
+                        <div class="alexnet-status" id="alexnetStatus" aria-live="polite">Ready for an image</div>
+                        <button class="alexnet-reset-btn" id="alexnetResetBtn" type="button" aria-label="Clear image" title="Clear image">↺</button>
+                    </div>
+                    <div class="alexnet-demo-notes">
+                        <span>First request after idle may take up to ~30s.</span>
+                        <span>Retry if inference fails.</span>
+                        <span>Limit: 10 predictions / IP / hour.</span>
+                    </div>
+                </div>
 
-    <a class="btn secondary"
-       href="https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf"
-       target="_blank">
-        Read original paper ↗
-    </a>
-
-    <a class="btn secondary"
-       href="https://drive.google.com/file/d/17Cw3TuYnMuiR-ml0DdaNvx4aHbJ88XUa/view?usp=drive_link"
-       target="_blank"
-       rel="noopener noreferrer">
-        Download trained model ↗
-    </a>
-</div>
-
-
+                <div class="alexnet-output-card">
+                    <div class="alexnet-output-head">
+                        <div>
+                            <div class="alexnet-output-kicker">PREDICTION</div>
+                            <h4>Top-5 classes</h4>
+                        </div>
+                    </div>
+                    <div class="alexnet-results" id="alexnetResults"><div class="alexnet-empty">Upload an image to see the model's ranked ImageNet classes.</div></div>
+                    <div class="alexnet-output-footnote">
+                        This reproduction predicts only the 1,000 ImageNet classes used to train this model (ImageNet 2010).<br>Confidence is the probability assigned by the model to each predicted class.
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -2022,5 +2864,408 @@ footer strong{color:white}
     <div>AlexNet / Computer Vision</div>
 </footer>
 
+<script>
+/* =========================================================
+   LIVE ALEXNET INFERENCE
+   ========================================================= */
+
+(() => {
+    const ALEXNET_API =
+        "https://alexnet-api-301281974248.asia-south1.run.app/predict";
+
+    const fileInput =
+        document.getElementById("alexnetFile");
+
+    const uploadButton =
+        document.getElementById("alexnetUploadBtn");
+
+    const resetButton =
+        document.getElementById("alexnetResetBtn");
+
+    const preview =
+        document.getElementById("alexnetPreview");
+
+    const results =
+        document.getElementById("alexnetResults");
+
+    const status =
+        document.getElementById("alexnetStatus");
+
+    if (
+        !fileInput ||
+        !uploadButton ||
+        !resetButton ||
+        !preview ||
+        !results ||
+        !status
+    ) {
+        return;
+    }
+
+    let previewUrl = null;
+    let lastFile = null;
+
+    uploadButton.addEventListener("click", () => {
+        fileInput.click();
+    });
+
+    // The circular refresh control is the "upload another image" action.
+    // Clear the input first so selecting the same file again still fires change.
+    resetButton.addEventListener("click", () => {
+        fileInput.value = "";
+        fileInput.click();
+    });
+
+    async function handleSelectedFile(file) {
+        if (!file) {
+            return;
+        }
+
+        if (!file.type.startsWith("image/")) {
+            showError("Please drop or select an image file.");
+            return;
+        }
+
+        /*
+         * Keep the browser-side guard modest. The API remains
+         * responsible for its own validation and rate limits.
+         */
+        if (file.size > 10 * 1024 * 1024) {
+            showError("Please choose an image smaller than 10 MB.");
+            return;
+        }
+
+        lastFile = file;
+        showPreview(file);
+        await predict(file);
+    }
+
+    fileInput.addEventListener("change", async () => {
+        await handleSelectedFile(fileInput.files[0]);
+    });
+
+    // Make the image area a real drop target. Preventing the browser's
+    // default drag/drop behavior stops it from opening the image in a new tab.
+    ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+        preview.addEventListener(eventName, (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+        });
+    });
+
+    ["dragenter", "dragover"].forEach((eventName) => {
+        preview.addEventListener(eventName, () => {
+            preview.classList.add("alexnet-dragover");
+        });
+    });
+
+    ["dragleave", "drop"].forEach((eventName) => {
+        preview.addEventListener(eventName, () => {
+            preview.classList.remove("alexnet-dragover");
+        });
+    });
+
+    preview.addEventListener("drop", async (event) => {
+        const files = event.dataTransfer?.files;
+
+        if (!files || !files.length) {
+            return;
+        }
+
+        await handleSelectedFile(files[0]);
+    });
+
+    function showPreview(file) {
+        if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+        }
+
+        previewUrl = URL.createObjectURL(file);
+
+        preview.innerHTML = `
+            <img
+                src="${previewUrl}"
+                alt="Selected image for AlexNet inference"
+            >
+        `;
+    }
+
+    async function predict(file) {
+        setBusy(true);
+
+        results.innerHTML = `
+            <div class="alexnet-loading">
+                <span class="alexnet-spinner"></span>
+                <span>Running inference…</span>
+            </div>
+        `;
+
+        status.textContent =
+            "Sending image to the deployed model…";
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const startedAt = performance.now();
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 60_000);
+
+        try {
+            const response = await fetch(
+                ALEXNET_API,
+                {
+                    method: "POST",
+                    body: formData,
+                    signal: controller.signal
+                }
+            );
+
+            let data = null;
+
+            try {
+                data = await response.json();
+            } catch {
+                throw new Error(
+                    `The API returned an invalid response (HTTP ${response.status}).`
+                );
+            }
+
+            if (!response.ok) {
+                const detail =
+                    data?.detail ||
+                    data?.error ||
+                    data?.message ||
+                    `API request failed (HTTP ${response.status}).`;
+
+                const error = new Error(detail);
+                error.status = response.status;
+                throw error;
+            }
+
+            if (
+                !data ||
+                !Array.isArray(data.predictions)
+            ) {
+                throw new Error(
+                    "The API response did not contain a predictions array."
+                );
+            }
+
+            renderPredictions(
+                data.predictions.slice(0, 5)
+            );
+
+            const elapsed =
+                ((performance.now() - startedAt) / 1000).toFixed(1);
+
+            status.textContent =
+                `Inference complete · ${elapsed}s`;
+
+        } catch (error) {
+            console.error(
+                "AlexNet inference error:",
+                error
+            );
+
+            showError(
+                getFriendlyError(error)
+            );
+
+            status.textContent =
+                "Inference failed";
+        } finally {
+            clearTimeout(timeoutId);
+            setBusy(false);
+        }
+    }
+
+    function renderPredictions(predictions) {
+        if (!predictions.length) {
+            showError(
+                "The model returned no predictions."
+            );
+            return;
+        }
+
+        results.innerHTML = predictions
+            .map((prediction, index) => {
+                const confidence =
+                    Number(prediction.confidence);
+
+                /*
+                 * Confidence is expected as a value in [0, 1].
+                 * Clamp it so malformed API values cannot break
+                 * the visual width.
+                 */
+                const safeConfidence =
+                    Number.isFinite(confidence)
+                        ? Math.max(0, Math.min(1, confidence))
+                        : 0;
+
+                const percentage =
+                    safeConfidence * 100;
+
+                const label =
+                    escapeHtml(
+                        prediction.label ?? "Unknown class"
+                    );
+
+                return `
+                    <div class="alexnet-prediction">
+
+                        <div class="alexnet-prediction-meta">
+                            <span class="alexnet-rank">
+                                0${index + 1}
+                            </span>
+
+                            <span class="alexnet-label">
+                                ${label}
+                            </span>
+
+                            <span class="alexnet-confidence">
+                                ${percentage.toFixed(1)}%
+                            </span>
+                        </div>
+
+                        <div class="alexnet-progress">
+                            <div
+                                class="alexnet-progress-bar"
+                                style="width:${percentage}%"
+                            ></div>
+                        </div>
+
+                    </div>
+                `;
+            })
+            .join("");
+    }
+
+    function resetDemo() {
+        if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+            previewUrl = null;
+        }
+
+        fileInput.value = "";
+        lastFile = null;
+
+        preview.innerHTML = `
+            <div class="alexnet-preview-placeholder">
+                <div class="upload-glyph">↑</div>
+                <strong>Drop an image here</strong>
+                <span>or choose one from your computer</span>
+            </div>
+        `;
+
+        results.innerHTML = `
+            <div class="alexnet-empty">
+                <div class="alexnet-empty-number">01</div>
+                <p>
+                    Upload an image to see how the reproduced model ranks
+                    the 1,000 ImageNet classes.
+                </p>
+            </div>
+        `;
+
+        status.textContent =
+            "Ready for an image";
+
+        setBusy(false);
+    }
+
+    function setBusy(isBusy) {
+        uploadButton.disabled = isBusy;
+
+        uploadButton.innerHTML = isBusy
+            ? `
+                <span>Classifying…</span>
+                <span>•</span>
+              `
+            : `
+                <span>
+                    ${fileInput.files.length
+                        ? "Upload another image"
+                        : "Upload image"}
+                </span>
+                <span>↗</span>
+              `;
+    }
+
+    function showError(message, canRetry = true) {
+        results.innerHTML = `
+            <div class="alexnet-error">
+                <strong>Prediction unavailable.</strong>
+                <span>${escapeHtml(message)}</span>
+                ${canRetry && lastFile
+                    ? '<button class="alexnet-retry" id="alexnetRetry" type="button">Retry inference ↻</button>'
+                    : ''}
+            </div>
+        `;
+
+        const retryButton = document.getElementById("alexnetRetry");
+        if (retryButton) {
+            retryButton.addEventListener("click", () => predict(lastFile));
+        }
+    }
+
+    function getFriendlyError(error) {
+        const message =
+            error?.message ||
+            "Something went wrong while contacting the model.";
+
+        if (error?.status === 429) {
+            return (
+                message +
+                " Please wait until the rate-limit window resets before trying again."
+            );
+        }
+
+        if (error?.status === 413) {
+            return "The image is too large. The API accepts images up to 5 MB.";
+        }
+
+        if (error?.status === 400) {
+            return message;
+        }
+
+        if (error?.status >= 500) {
+            return (
+                "The inference service returned a server error. " +
+                "The service may be starting from an idle state; wait a moment and retry."
+            );
+        }
+
+        if (error?.name === "AbortError") {
+            return (
+                "The inference request timed out. A cold start can take up to ~30 seconds; " +
+                "please retry."
+            );
+        }
+
+        if (
+            message.includes("Failed to fetch") ||
+            message.includes("NetworkError")
+        ) {
+            return (
+                "The browser could not reach the inference API. " +
+                "Check that the API is running and that CORS allows this site."
+            );
+        }
+
+        return message;
+    }
+
+    function escapeHtml(value) {
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+})();
+
+</script>
 </body>
 </html>
+```
