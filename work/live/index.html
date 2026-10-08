@@ -1,0 +1,1458 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  >
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="../../assets/favicon.png"
+  >
+
+  <title>Live Models — Prashanth N</title>
+
+  <meta
+    name="description"
+    content="Try live AI and machine learning models deployed by Prashanth N."
+  >
+
+  <link
+    rel="stylesheet"
+    href="../../assets/site.css"
+  >
+
+
+  <style>
+
+    /* =========================================================
+       PAGE
+       ========================================================= */
+
+    .live-page {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+
+    .live-hero {
+      padding-top: 110px;
+      padding-bottom: 80px;
+      max-width: 900px;
+    }
+
+    .live-hero h1 {
+      margin: 18px 0 18px;
+      font-size: clamp(48px, 7vw, 86px);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    .live-hero p {
+      max-width: 720px;
+      font-size: 20px;
+      line-height: 1.6;
+      color: #596273;
+      margin: 0;
+    }
+
+
+    /* =========================================================
+       LIVE STATUS
+       ========================================================= */
+
+    .live-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 28px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #45c76f;
+      box-shadow: 0 0 0 5px rgba(69, 199, 111, 0.12);
+    }
+
+
+    /* =========================================================
+       SECTION
+       ========================================================= */
+
+    .live-section {
+      padding-bottom: 120px;
+    }
+
+    .live-section-header {
+      margin-bottom: 30px;
+    }
+
+
+    /* =========================================================
+       MODEL GRID
+       ========================================================= */
+
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(330px, 1fr)
+      );
+      gap: 28px;
+    }
+
+
+    /* =========================================================
+       MODEL CARD
+       ========================================================= */
+
+    .model-card {
+      border: 1px solid #d8d6cf;
+      background: rgba(255,255,255,0.35);
+      padding: 24px;
+      position: relative;
+    }
+
+    .model-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .model-number {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .model-type {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #687181;
+    }
+
+    .model-card h2 {
+      margin: 0 0 7px;
+      font-size: 31px;
+      letter-spacing: -0.035em;
+    }
+
+    .model-description {
+      margin: 0 0 22px;
+      color: #596273;
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+
+    /* =========================================================
+       MODEL TAGS
+       ========================================================= */
+
+    .model-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 22px;
+    }
+
+    .model-tag {
+      border: 1px solid #d0cec6;
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+
+    /* =========================================================
+       INFERENCE BOX
+       ========================================================= */
+
+    .inference-box {
+      border: 1px solid #d6d4cd;
+      background: #f7f6f1;
+      padding: 12px;
+    }
+
+    .drop-zone {
+      position: relative;
+      border: 1px dashed #bbb9b1;
+      min-height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: pointer;
+      background: #efeee9;
+      transition:
+        border-color 0.15s ease,
+        background 0.15s ease;
+    }
+
+    .drop-zone:hover {
+      border-color: #77756f;
+    }
+
+    .drop-zone.dragover {
+      border-color: #4169e1;
+      background: #e9ebf3;
+    }
+
+    .drop-placeholder {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .drop-placeholder strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .drop-placeholder span {
+      display: block;
+      font-size: 11px;
+      color: #77756f;
+    }
+
+    .preview-image {
+      width: 100%;
+      height: 250px;
+      object-fit: contain;
+      display: none;
+      background: #e8e7e2;
+    }
+
+    .preview-image.visible {
+      display: block;
+    }
+
+    .drop-placeholder.hidden {
+      display: none;
+    }
+
+
+    /* =========================================================
+       IMAGE ACTION
+       ========================================================= */
+
+    .image-action {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+
+      width: 36px;
+      height: 36px;
+
+      border: 1px solid rgba(0,0,0,0.16);
+      border-radius: 50%;
+
+      background: rgba(247,246,241,0.92);
+
+      font-size: 17px;
+      line-height: 1;
+
+      cursor: pointer;
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      z-index: 3;
+    }
+
+    .image-action.visible {
+      display: flex;
+    }
+
+    .image-action:hover {
+      background: #fff;
+    }
+
+
+    /* =========================================================
+       FILE INPUT
+       ========================================================= */
+
+    #fileInput {
+      display: none;
+    }
+
+
+    /* =========================================================
+       INFERENCE META
+       ========================================================= */
+
+    .inference-meta {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      font-size: 10px;
+      color: #77756f;
+
+      margin-top: 10px;
+    }
+
+    .status-text {
+      margin: 0;
+    }
+
+    .status-text.error {
+      color: #b44343;
+    }
+
+    .status-text.success {
+      color: #32754b;
+    }
+
+
+    /* =========================================================
+       PREDICTIONS
+       ========================================================= */
+
+    .prediction-section {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .prediction-section.visible {
+      display: block;
+    }
+
+    .prediction-label {
+      color: #4169e1;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .prediction-title {
+      font-size: 21px;
+      font-weight: 800;
+      margin-bottom: 13px;
+    }
+
+    .prediction-row {
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
+      grid-template-rows: auto 4px;
+
+      column-gap: 8px;
+      row-gap: 5px;
+
+      padding: 8px 0;
+
+      border-top: 1px solid #dedcd5;
+
+      font-size: 11px;
+    }
+
+    .prediction-rank {
+      color: #8a8983;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .prediction-name {
+      font-weight: 700;
+      min-width: 0;
+    }
+
+    .prediction-confidence {
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .prediction-bar {
+      grid-column: 2 / 4;
+      width: 100%;
+      height: 4px;
+      background: #deddd8;
+      overflow: hidden;
+    }
+
+    .prediction-fill {
+      height: 100%;
+      width: 0;
+      background: #4169e1;
+      transition: width 0.45s ease;
+    }
+
+    .prediction-row:first-child .prediction-fill {
+      background: #ff6b55;
+    }
+
+
+    /* =========================================================
+       CARD FOOTER
+       ========================================================= */
+
+    .model-footer {
+      margin-top: 20px;
+      padding-top: 17px;
+      border-top: 1px solid #d8d6cf;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .details-link {
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .details-link:hover {
+      text-decoration: underline;
+    }
+
+    .model-limit {
+      font-size: 9px;
+      color: #77756f;
+      letter-spacing: 0.03em;
+    }
+
+
+    /* =========================================================
+       NOTES
+       ========================================================= */
+
+    .model-notes {
+      margin-top: 14px;
+      font-size: 9px;
+      line-height: 1.6;
+      color: #77756f;
+    }
+
+    .model-notes p {
+      margin: 4px 0;
+    }
+
+
+    /* =========================================================
+       FUTURE MODEL PLACEHOLDER
+       ========================================================= */
+
+    .future-card {
+      border: 1px dashed #d0cec6;
+      min-height: 300px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+      padding: 30px;
+    }
+
+    .future-card-inner {
+      max-width: 280px;
+    }
+
+    .future-card h2 {
+      margin: 10px 0;
+      font-size: 24px;
+    }
+
+    .future-card p {
+      color: #77756f;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+
+    @media (max-width: 760px) {
+
+      .live-hero {
+        padding-top: 70px;
+        padding-bottom: 55px;
+      }
+
+      .live-hero h1 {
+        font-size: 52px;
+      }
+
+      .model-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .model-card {
+        padding: 18px;
+      }
+
+      .drop-zone,
+      .preview-image {
+        height: 220px;
+        min-height: 220px;
+      }
+
+      .model-card-header {
+        flex-direction: column;
+        gap: 7px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVIGATION
+     ========================================================= -->
+
+<nav class="nav">
+
+  <a
+    class="brand"
+    href="../../index.html"
+  >
+    PRASHANTH N.
+  </a>
+
+  <div class="navlinks">
+
+    <a href="../">
+      Work
+    </a>
+
+    <a href="../../research/">
+      Research
+    </a>
+
+    <a href="../../thinking/">
+      Thinking
+    </a>
+
+    <a href="../../learning/">
+      Learning
+    </a>
+
+    <a href="../../contact/">
+      Contact
+    </a>
+
+  </div>
+
+</nav>
+
+
+<main class="live-page">
+
+
+  <!-- =========================================================
+       PAGE HERO
+       ========================================================= -->
+
+  <section class="live-hero">
+
+    <div class="eyebrow">
+      AI / ML / DEPLOYED WORK
+    </div>
+
+    <h1>
+      Try the live models.
+    </h1>
+
+    <p>
+      These are models I've actually trained, reproduced, and deployed.
+      Upload an image and interact with the running inference system.
+    </p>
+
+    <div class="live-status">
+      <span class="live-dot"></span>
+      Live inference endpoints
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       MODELS
+       ========================================================= -->
+
+  <section class="live-section">
+
+    <div class="live-section-header">
+
+      <div class="eyebrow">
+        01 / COMPUTER VISION
+      </div>
+
+    </div>
+
+
+    <div class="model-grid">
+
+
+      <!-- =====================================================
+           ALEXNET
+           ===================================================== -->
+
+      <article class="model-card">
+
+
+        <div class="model-card-header">
+
+          <div>
+
+            <div class="model-number">
+              01 / RESEARCH REPRODUCTION
+            </div>
+
+            <h2>
+              AlexNet
+            </h2>
+
+            <p class="model-description">
+              A reproduction of the 2012 AlexNet architecture trained
+              on ImageNet-1K from scratch.
+            </p>
+
+          </div>
+
+          <div class="model-type">
+            IMAGE CLASSIFICATION
+          </div>
+
+        </div>
+
+
+        <div class="model-tags">
+
+          <span class="model-tag">
+            2012 PAPER
+          </span>
+
+          <span class="model-tag">
+            CNN
+          </span>
+
+          <span class="model-tag">
+            IMAGENET
+          </span>
+
+          <span class="model-tag">
+            PYTORCH / KERAS
+          </span>
+
+        </div>
+
+
+        <!-- ===================================================
+             INFERENCE
+             =================================================== -->
+
+        <div class="inference-box">
+
+          <div
+            class="drop-zone"
+            id="dropZone"
+          >
+
+            <div
+              class="drop-placeholder"
+              id="dropPlaceholder"
+            >
+
+              <strong>
+                Drop an image here
+              </strong>
+
+              <span>
+                or click to choose an image
+              </span>
+
+            </div>
+
+
+            <img
+              id="previewImage"
+              class="preview-image"
+              alt="Selected image preview"
+            >
+
+
+            <button
+              type="button"
+              class="image-action"
+              id="imageAction"
+              aria-label="Choose another image"
+            >
+              ↻
+            </button>
+
+          </div>
+
+
+          <input
+            id="fileInput"
+            type="file"
+            accept="image/*"
+          >
+
+
+          <div class="inference-meta">
+
+            <p
+              class="status-text"
+              id="statusText"
+            >
+              Waiting for an image.
+            </p>
+
+          </div>
+
+
+          <!-- =================================================
+               PREDICTIONS
+               ================================================= -->
+
+          <div
+            class="prediction-section"
+            id="predictionSection"
+          >
+
+            <div class="prediction-label">
+              Prediction
+            </div>
+
+            <div class="prediction-title">
+              Top-5 classes
+            </div>
+
+            <div id="predictionList"></div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ===================================================
+             NOTES
+             =================================================== -->
+
+        <div class="model-notes">
+
+          <p>
+            • First request after idle may take up to ~30s.
+          </p>
+
+          <p>
+            • Retry if inference fails.
+          </p>
+
+          <p>
+            • Limit: 10 predictions / IP / hour.
+          </p>
+
+          <p>
+            This reproduction predicts only the 1,000 ImageNet classes
+            used to train the model (ImageNet 2010).
+          </p>
+
+        </div>
+
+
+        <!-- ===================================================
+             FOOTER
+             =================================================== -->
+
+        <div class="model-footer">
+
+          <a
+            class="details-link"
+            href="../research-reproductions/alexnet.html"
+          >
+            View the AlexNet reproduction ↗
+          </a>
+
+          <span class="model-limit">
+            REMOTE GPU INFERENCE
+          </span>
+
+        </div>
+
+      </article>
+
+
+      <!-- =====================================================
+           FUTURE MODELS
+           ===================================================== -->
+
+      <div class="future-card">
+
+        <div class="future-card-inner">
+
+          <div class="eyebrow">
+            MORE TO COME
+          </div>
+
+          <h2>
+            More models.
+          </h2>
+
+          <p>
+            As I reproduce and deploy more models, they will appear here.
+          </p>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<footer class="footer">
+
+  <strong>
+    PRASHANTH N.
+  </strong>
+
+  <span class="small">
+    AI / ML / Research · 2026
+  </span>
+
+</footer>
+
+
+<script>
+
+  /* =========================================================
+     CONFIG
+     ========================================================= */
+
+  const API_URL =
+    "https://alexnet-api-301281974248.asia-south1.run.app/predict";
+
+
+  /* =========================================================
+     ELEMENTS
+     ========================================================= */
+
+  const fileInput =
+    document.getElementById("fileInput");
+
+  const dropZone =
+    document.getElementById("dropZone");
+
+  const dropPlaceholder =
+    document.getElementById("dropPlaceholder");
+
+  const previewImage =
+    document.getElementById("previewImage");
+
+  const imageAction =
+    document.getElementById("imageAction");
+
+  const statusText =
+    document.getElementById("statusText");
+
+  const predictionSection =
+    document.getElementById("predictionSection");
+
+  const predictionList =
+    document.getElementById("predictionList");
+
+
+  /* =========================================================
+     OPEN FILE PICKER
+     ========================================================= */
+
+  function openFilePicker() {
+
+    /*
+      Allows selecting the same file again after a previous
+      inference.
+    */
+    fileInput.value = "";
+
+    fileInput.click();
+
+  }
+
+
+  dropZone.addEventListener(
+    "click",
+    function(event) {
+
+      /*
+        Do not reopen the picker when the circular button
+        itself was clicked.
+      */
+      if (event.target === imageAction) {
+        return;
+      }
+
+      openFilePicker();
+
+    }
+  );
+
+
+  imageAction.addEventListener(
+    "click",
+    function(event) {
+
+      event.stopPropagation();
+
+      openFilePicker();
+
+    }
+  );
+
+
+  fileInput.addEventListener(
+    "change",
+    function() {
+
+      if (!fileInput.files.length) {
+        return;
+      }
+
+      handleFile(fileInput.files[0]);
+
+    }
+  );
+
+
+  /* =========================================================
+     DRAG AND DROP
+     ========================================================= */
+
+  [
+    "dragenter",
+    "dragover"
+  ].forEach(function(eventName) {
+
+    dropZone.addEventListener(
+      eventName,
+      function(event) {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        dropZone.classList.add("dragover");
+
+      }
+    );
+
+  });
+
+
+  [
+    "dragleave",
+    "drop"
+  ].forEach(function(eventName) {
+
+    dropZone.addEventListener(
+      eventName,
+      function(event) {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        dropZone.classList.remove("dragover");
+
+      }
+    );
+
+  });
+
+
+  dropZone.addEventListener(
+    "drop",
+    function(event) {
+
+      const files = event.dataTransfer.files;
+
+      if (!files || !files.length) {
+        return;
+      }
+
+      handleFile(files[0]);
+
+    }
+  );
+
+
+  /*
+    Prevent the browser from opening dragged files in a new tab.
+  */
+  document.addEventListener(
+    "dragover",
+    function(event) {
+
+      event.preventDefault();
+
+    }
+  );
+
+
+  document.addEventListener(
+    "drop",
+    function(event) {
+
+      event.preventDefault();
+
+    }
+  );
+
+
+  /* =========================================================
+     FILE HANDLING
+     ========================================================= */
+
+  async function handleFile(file) {
+
+    if (!file) {
+      return;
+    }
+
+
+    if (!file.type.startsWith("image/")) {
+
+      showError(
+        "Please choose an image file."
+      );
+
+      return;
+
+    }
+
+
+    /*
+      Show preview immediately.
+    */
+
+    const objectUrl =
+      URL.createObjectURL(file);
+
+    previewImage.src = objectUrl;
+
+    previewImage.classList.add("visible");
+
+    dropPlaceholder.classList.add("hidden");
+
+    imageAction.classList.add("visible");
+
+
+    /*
+      Reset old predictions.
+    */
+
+    predictionSection.classList.remove("visible");
+
+    predictionList.innerHTML = "";
+
+
+    statusText.className =
+      "status-text";
+
+    statusText.textContent =
+      "Running inference…";
+
+
+    const startTime =
+      performance.now();
+
+
+    try {
+
+      const formData =
+        new FormData();
+
+      formData.append(
+        "file",
+        file
+      );
+
+
+      const controller =
+        new AbortController();
+
+
+      const timeout =
+        setTimeout(
+          function() {
+            controller.abort();
+          },
+          60000
+        );
+
+
+      const response =
+        await fetch(
+          API_URL,
+          {
+            method: "POST",
+            body: formData,
+            signal: controller.signal
+          }
+        );
+
+
+      clearTimeout(timeout);
+
+
+      /*
+        Read response as JSON when possible.
+      */
+
+      let data = null;
+
+      try {
+
+        data =
+          await response.json();
+
+      } catch (_) {
+
+        data = null;
+
+      }
+
+
+      if (!response.ok) {
+
+        const detail =
+          data && data.detail
+            ? data.detail
+            : "Inference request failed.";
+
+        throw new Error(
+          detail
+        );
+
+      }
+
+
+      const elapsed =
+        (
+          performance.now() -
+          startTime
+        ) / 1000;
+
+
+      if (
+        !data ||
+        !Array.isArray(data.predictions)
+      ) {
+
+        throw new Error(
+          "The API returned an unexpected response."
+        );
+
+      }
+
+
+      renderPredictions(
+        data.predictions
+      );
+
+
+      statusText.className =
+        "status-text success";
+
+      statusText.textContent =
+        `Inference complete · ${elapsed.toFixed(1)}s`;
+
+    }
+
+    catch (error) {
+
+      console.error(
+        "Inference error:",
+        error
+      );
+
+
+      if (
+        error.name ===
+        "AbortError"
+      ) {
+
+        showError(
+          "Inference timed out. The model may be starting from idle. Please retry."
+        );
+
+      } else {
+
+        showError(
+          getFriendlyError(
+            error
+          )
+        );
+
+      }
+
+    }
+
+  }
+
+
+  /* =========================================================
+     ERROR HANDLING
+     ========================================================= */
+
+  function getFriendlyError(error) {
+
+    const message =
+      error &&
+      error.message
+        ? error.message
+        : "";
+
+
+    if (
+      message.includes(
+        "10 predictions"
+      ) ||
+      message.includes(
+        "rate"
+      )
+    ) {
+
+      return message;
+
+    }
+
+
+    if (
+      message.includes(
+        "megapixels"
+      ) ||
+      message.includes(
+        "resolution"
+      ) ||
+      message.includes(
+        "dimensions"
+      )
+    ) {
+
+      return message;
+
+    }
+
+
+    if (
+      message.includes(
+        "NetworkError"
+      ) ||
+      message.includes(
+        "Failed to fetch"
+      )
+    ) {
+
+      return (
+        "Could not reach the inference server. " +
+        "Please retry."
+      );
+
+    }
+
+
+    return (
+      message ||
+      "Inference failed. Please retry."
+    );
+
+  }
+
+
+  function showError(message) {
+
+    statusText.className =
+      "status-text error";
+
+    statusText.textContent =
+      message;
+
+    predictionSection.classList.remove(
+      "visible"
+    );
+
+  }
+
+
+  /* =========================================================
+     PREDICTIONS
+     ========================================================= */
+
+  function renderPredictions(
+    predictions
+  ) {
+
+    predictionList.innerHTML = "";
+
+
+    predictions
+      .slice(0, 5)
+      .forEach(
+        function(prediction, index) {
+
+          const row =
+            document.createElement(
+              "div"
+            );
+
+          row.className =
+            "prediction-row";
+
+
+          const rank =
+            document.createElement(
+              "div"
+            );
+
+          rank.className =
+            "prediction-rank";
+
+          rank.textContent =
+            String(index + 1)
+              .padStart(2, "0");
+
+
+          const name =
+            document.createElement(
+              "div"
+            );
+
+          name.className =
+            "prediction-name";
+
+          name.textContent =
+            prediction.label;
+
+
+          const confidence =
+            Number(
+              prediction.confidence
+            );
+
+
+          const confidenceText =
+            document.createElement(
+              "div"
+            );
+
+          confidenceText.className =
+            "prediction-confidence";
+
+          confidenceText.textContent =
+            `${(confidence * 100).toFixed(1)}%`;
+
+
+          const bar =
+            document.createElement(
+              "div"
+            );
+
+          bar.className =
+            "prediction-bar";
+
+
+          const fill =
+            document.createElement(
+              "div"
+            );
+
+          fill.className =
+            "prediction-fill";
+
+          fill.style.width =
+            `${Math.max(
+              0,
+              Math.min(
+                100,
+                confidence * 100
+              )
+            )}%`;
+
+
+          bar.appendChild(
+            fill
+          );
+
+
+          row.appendChild(
+            rank
+          );
+
+          row.appendChild(
+            name
+          );
+
+          row.appendChild(
+            confidenceText
+          );
+
+          row.appendChild(
+            bar
+          );
+
+
+          predictionList.appendChild(
+            row
+          );
+
+        }
+      );
+
+
+    predictionSection.classList.add(
+      "visible"
+    );
+
+  }
+
+</script>
+
+
+</body>
+</html>
