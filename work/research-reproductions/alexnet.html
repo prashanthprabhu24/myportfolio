@@ -140,6 +140,18 @@ img{max-width:100%;display:block}
     font-size:21px;
     line-height:1.55;
 }
+
+.published-date{
+    margin:-17px 0 24px;
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.5;
+    font-weight:650;
+}
+.published-date time{
+    color:var(--ink);
+    font-weight:800;
+}
 .meta{
     display:flex;
     flex-wrap:wrap;
@@ -241,6 +253,13 @@ main{overflow:hidden}
     right:-70px;bottom:-120px;
     border-radius:50%;
     background:var(--lime);
+    z-index:0;
+    pointer-events:none;
+}
+.callout strong,
+.callout p{
+    position:relative;
+    z-index:1;
 }
 .callout strong{font-size:24px;letter-spacing:-.03em}
 .callout p{max-width:720px;color:#c7cad0;margin:10px 0 0}
@@ -487,7 +506,7 @@ main{overflow:hidden}
 }
 
 .stop-1 .journey-content { border-left: 5px solid var(--blue); }
-.stop-2 .journey-content { border-right: 5px solid var(--coral); }
+.stop-2 .journey-content { border-right: 5px solid var(--orange); }
 .stop-3 .journey-content { border-left: 5px solid var(--ink); }
 .stop-4 .journey-content { border-right: 5px solid var(--lime); }
 
@@ -1999,8 +2018,9 @@ footer strong{color:white}
         <div class="hero-copy">
             <div class="kicker"><span class="dot"></span> 01 / COMPUTER VISION / REPRODUCTION</div>
             <h1>Alex<span>Net</span>.</h1>
-            <p class="hero-sub">Reproducing a landmark convolutional neural network from the paper <em>ImageNet Classification with Deep Convolutional Neural Networks</em>, then training it on a large-scale ImageNet dataset from scratch.</p>
-            <div class="meta"><span class="pill">2012 Paper</span><span class="pill">CNN</span><span class="pill">ImageNet</span><span class="pill">PyTorch / Keras</span><span class="pill">RTX 5050</span><span class="pill">ReLU / LRN Studies</span></div>
+            <p class="hero-sub">Reproducing a landmark convolutional neural network from the paper <em>ImageNet Classification with Deep Convolutional Neural Networks</em>, then training it on ImageNet ILSVRC 2010 from scratch.</p>
+            <p class="published-date">Published <time datetime="2026-07-09">July 9, 2026</time></p>
+            <div class="meta"><span class="pill">2012 Paper</span><span class="pill">CNN</span><span class="pill">ImageNet ILSVRC 2010</span><span class="pill">PyTorch / Keras</span><span class="pill">RTX 5050</span><span class="pill">ReLU / LRN Studies</span></div>
             <div class="actions">
                 <a class="btn primary" href="https://github.com/prashanthprabhu24/PaperClip/tree/main/Vision%20Models/AlexNet" target="_blank">View implementation ↗</a>
                 <a class="btn secondary" href="https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf" target="_blank">Read original paper ↗</a>
@@ -2662,10 +2682,12 @@ footer strong{color:white}
             </p>
         </div>
         <div class="card dark">
-            <h3>No labeled test set</h3>
+            <h3>Test labels unavailable locally</h3>
             <p>
-                The available test labels were not available, so evaluation was
-                performed on the validation set. No hyperparameter tuning was performed.
+                The local dataset copy did not include usable ground-truth labels
+                for the test split. Evaluation was therefore performed on the
+                labeled validation split. The validation split was not used for
+                hyperparameter tuning.
             </p>
         </div>
     </div>
@@ -3268,4 +3290,3 @@ footer strong{color:white}
 </script>
 </body>
 </html>
-```
